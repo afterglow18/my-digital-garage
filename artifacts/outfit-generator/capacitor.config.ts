@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.mydigitalgarage.app',
-  appName: 'My Digital Garage',
+  appName: 'My Garage',
   webDir: 'dist/public',
 
   // -------------------------------------------------------------------------
