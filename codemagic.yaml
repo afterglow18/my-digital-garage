@@ -163,7 +163,8 @@ workflows:
           KEY_FILE=$(mktemp /tmp/AuthKey_XXXXXX.p8)
           echo "$APP_STORE_CONNECT_PRIVATE_KEY" > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
-          # Remove any old .p8 files left on the machine so they can't interfere
+          # Remove any stale .p8 files from the machine AND the repo clone
+          # so Codemagic can't fall back to a wrong key
           find /Users/builder -name "AuthKey_*.p8" 2>/dev/null | while read f; do
             echo "Removing stale key: $f"
             rm -f "$f"
