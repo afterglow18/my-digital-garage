@@ -14,7 +14,7 @@
 
 import { openDB, type IDBPDatabase } from "idb";
 
-export const DB_NAME    = "my-digital-suitcase";
+export const DB_NAME    = "my-digital-garage";
 export const DB_VERSION = 1;
 
 // ── Stored types (IndexedDB records) ─────────────────────────────────────────

@@ -245,7 +245,7 @@ export default function GeneratePage() {
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
-        src="/suitcase-open-bg.jpg"
+        src="/garage-open-bg.jpg"
         alt="My Digital Garage"
         style={{
           position: "absolute",
@@ -409,13 +409,13 @@ export default function GeneratePage() {
                     padding: "3px 11px", borderRadius: 20,
                     whiteSpace: "nowrap",
                   }}>
-                    Packing your suitcase…
+                    Packing your garage…
                   </span>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* ── Empty suitcase prompt ── */}
+            {/* ── Empty garage prompt ── */}
             {!hasItems && (
               <div style={{
                 position: "absolute",
@@ -435,13 +435,13 @@ export default function GeneratePage() {
                   letterSpacing: "0.07em", textTransform: "uppercase",
                   color: "#3A2210", fontFamily: "var(--font-display)", margin: 0,
                 }}>
-                  Your suitcase is empty
+                  Your garage is empty
                 </p>
                 <p style={{
                   fontSize: 11, color: "#9a5060",
                   marginTop: 5, lineHeight: 1.5,
                 }}>
-                  Add outfits, beauty, toiletries or essentials in the Suitcase tab first.
+                  Add outfits, beauty, toiletries or essentials in the Garage tab first.
                 </p>
               </div>
             )}
