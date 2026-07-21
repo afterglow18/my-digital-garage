@@ -32,7 +32,7 @@ workflows:
         BUNDLE_ID: com.mydigitalgarage.app
         TEAM_ID: 2A78MFVCJS
         PROFILE_NAME: My Digital Garage
-        APP_STORE_CONNECT_KEY_IDENTIFIER: KF2R947UR5
+        APP_STORE_CONNECT_KEY_IDENTIFIER: 57XCS99FRP
         APP_STORE_CONNECT_ISSUER_ID: 66d4ce13-148d-4d6b-bab8-f1d0d8441a1e
 
     scripts:
