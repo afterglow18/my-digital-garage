@@ -34,6 +34,7 @@ workflows:
         BUNDLE_ID: com.mydigitalgarage.app
         TEAM_ID: 2A78MFVCJS
         PROFILE_NAME: My Digital Garage
+        APP_STORE_CONNECT_KEY_IDENTIFIER: 57XCS99FRP
 
     scripts:
       - name: Install pnpm and dependencies
