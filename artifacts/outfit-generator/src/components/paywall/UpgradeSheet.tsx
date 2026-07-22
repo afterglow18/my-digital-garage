@@ -33,9 +33,9 @@ const FEATURES = [
 ] as const;
 
 const HEADLINES: Record<UpgradeReason, string> = {
-  items:     "UNLOCK YOUR UNLIMITED DIGITAL SUITCASE",
-  outfits:   "UNLOCK YOUR UNLIMITED DIGITAL SUITCASE",
-  mannequin: "UNLOCK YOUR UNLIMITED DIGITAL SUITCASE",
+  items:     "UNLOCK YOUR UNLIMITED DIGITAL GARAGE",
+  outfits:   "UNLOCK YOUR UNLIMITED DIGITAL GARAGE",
+  mannequin: "UNLOCK YOUR UNLIMITED DIGITAL GARAGE",
 };
 
 const SUBTITLES: Record<UpgradeReason, string> = {
@@ -122,7 +122,7 @@ function TierCard({
 // ── Sheet ─────────────────────────────────────────────────────────────────────
 
 export function UpgradeSheet({ reason, onClose }: Props) {
-  const { offerings, purchase } = useSubscription();
+  const { offerings, purchase, restore, isRestoring } = useSubscription();
   const [selected, setSelected] = useState<TierId>("lifetime");
   const [status,   setStatus]   = useState<"idle" | "pending">("idle");
 
@@ -257,6 +257,36 @@ export function UpgradeSheet({ reason, onClose }: Props) {
         >
           Maybe Later
         </button>
+
+        {/* Restore Purchases */}
+        <button
+          onClick={() => restore()}
+          disabled={isRestoring}
+          className="text-xs font-semibold text-black/30 text-center hover:text-black/50 transition-colors disabled:opacity-50"
+        >
+          {isRestoring ? "Restoring…" : "Restore Purchases"}
+        </button>
+
+        {/* Legal links — required by Apple */}
+        <div className="flex items-center justify-center gap-3 pb-1">
+          <a
+            href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] font-medium text-black/30 hover:text-black/50 underline underline-offset-2 transition-colors"
+          >
+            Terms of Use
+          </a>
+          <span className="text-[10px] text-black/20">·</span>
+          <a
+            href="https://app.notion.com/p/My-Digital-Collection-Privacy-Policy-39682db6065380b19dedcb108d4a0ef4?source=copy_link"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] font-medium text-black/30 hover:text-black/50 underline underline-offset-2 transition-colors"
+          >
+            Privacy Policy
+          </a>
+        </div>
       </div>
     </motion.div>
   );
