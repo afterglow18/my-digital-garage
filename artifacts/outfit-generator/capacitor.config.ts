@@ -15,6 +15,15 @@ const config: CapacitorConfig = {
     backgroundColor: '#F9F4EE',
     // Allow inline media playback (used for wardrobe image previews)
     allowsInlineMediaPlayback: true,
+    // Privacy usage descriptions — all three are required by iOS/TCC
+    infoPlist: {
+      NSCameraUsageDescription:
+        'My Digital Garage uses your camera to photograph clothing items for your wardrobe.',
+      NSPhotoLibraryUsageDescription:
+        'My Digital Garage reads your photo library so you can add clothing images from your photos.',
+      NSPhotoLibraryAddUsageDescription:
+        'My Digital Garage saves captured clothing photos to your photo library.',
+    },
   },
 
   plugins: {
