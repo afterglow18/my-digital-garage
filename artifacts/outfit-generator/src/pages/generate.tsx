@@ -235,13 +235,8 @@ export default function GeneratePage() {
   return (
     <div
       ref={containerRef}
-      style={{
-        position: "relative",
-        width: "100%",
-        height: `calc(100dvh - ${NAV_H}px)`,
-        overflow: "hidden",
-        background: "#C8B9A2",
-      }}
+      className="portrait-stage"
+      style={{ background: "#C8B9A2" }}
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
@@ -287,7 +282,7 @@ export default function GeneratePage() {
                 color: "#1a0800",
                 lineHeight: 1.1,
               }}>
-                MY DIGITAL SUITCASE
+                MY DIGITAL GARAGE
               </div>
               <div style={{
                 fontFamily: "var(--font-display, serif)",

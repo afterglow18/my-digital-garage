@@ -173,3 +173,26 @@
     @apply bg-card border-2 border-border shadow-md transition-all;
   }
 }
+
+/*
+ * portrait-stage — full-screen image canvas used by Wardrobe and Generate pages.
+ * Mobile:  fills screen minus the 90px bottom nav.
+ * Tablet+: fills full screen (no bottom nav) and caps width at portrait
+ *          aspect ratio so the garage image never stretches horizontally.
+ */
+.portrait-stage {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - 90px);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .portrait-stage {
+    height: 100dvh;
+    /* 1024 ÷ 1536 ≈ 0.667 — locks the canvas to the image's native portrait ratio */
+    max-width: calc(100dvh * 1024 / 1536);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
