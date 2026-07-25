@@ -279,7 +279,7 @@ export default function GeneratePage() {
                 letterSpacing: "0.08em",
                 whiteSpace: "nowrap",
                 textTransform: "uppercase",
-                color: "#1a0800",
+                color: "#F0F0F0",
                 lineHeight: 1.1,
               }}>
                 MY DIGITAL GARAGE
@@ -291,7 +291,7 @@ export default function GeneratePage() {
                 letterSpacing: "0.06em",
                 whiteSpace: "nowrap",
                 textTransform: "uppercase",
-                color: "#1a0800",
+                color: "#F0F0F0",
                 lineHeight: 1.1,
               }}>
                 MATCHMAKER
@@ -328,7 +328,7 @@ export default function GeneratePage() {
                       fontSize: Math.max(9, pH(ir, 0.013)),
                       fontWeight: 800,
                       letterSpacing: "0.12em",
-                      color: "#1A1A1A",
+                      color: "#F0F0F0",
                       fontFamily: "var(--font-display)",
                       textTransform: "uppercase",
                     }}>
