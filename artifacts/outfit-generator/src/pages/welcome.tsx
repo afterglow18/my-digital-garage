@@ -83,7 +83,7 @@ export default function WelcomePage({ onEnter }: Props) {
           fontSize: "clamp(40px, 12vw, 68px)",
           letterSpacing: "-0.02em",
           lineHeight: 0.95,
-          color: "#E8D4B0",
+          color: "#C8C8C8",
           textAlign: "center",
           textShadow: "0 2px 24px rgba(0,0,0,0.6)",
         }}>
@@ -97,7 +97,7 @@ export default function WelcomePage({ onEnter }: Props) {
           fontWeight: 500,
           letterSpacing: "0.25em",
           textTransform: "uppercase" as const,
-          color: "rgba(232,212,176,0.50)",
+          color: "rgba(200,200,200,0.50)",
           textAlign: "center",
         }}>
           your digital garage
@@ -113,13 +113,13 @@ export default function WelcomePage({ onEnter }: Props) {
             fontWeight: 800,
             fontSize: 16,
             letterSpacing: "0.03em",
-            color: "#3A2210",
-            background: "linear-gradient(to bottom, #E8D4B0, #B8894E)",
-            border: "1.5px solid #B8894E",
+            color: "#1A1A1A",
+            background: "linear-gradient(to bottom, #C8C8C8, #888888)",
+            border: "1.5px solid #888888",
             borderRadius: 100,
             padding: "14px 44px",
             cursor: "pointer",
-            boxShadow: "0 4px 24px rgba(120,80,40,0.50), 2px 2px 0 rgba(0,0,0,0.7)",
+            boxShadow: "0 4px 24px rgba(80,80,80,0.50), 2px 2px 0 rgba(0,0,0,0.7)",
             whiteSpace: "nowrap" as const,
           }}
         >

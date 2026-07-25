@@ -319,7 +319,7 @@ export default function WardrobePage() {
                     fontSize: Math.max(9, pH(ir, 0.013)),
                     fontWeight: 800,
                     letterSpacing: "0.12em",
-                    color: "#3A2210",
+                    color: "#1A1A1A",
                     fontFamily: "var(--font-display)",
                     textTransform: "uppercase",
                   }}>
@@ -425,9 +425,9 @@ export default function WardrobePage() {
               height: pW(ir, 0.148),
               borderRadius: "50%",
               zIndex: 26,
-              background: "linear-gradient(160deg, #E8D4B0 0%, #B8894E 100%)",
-              border: "2px solid #B8894E",
-              boxShadow: "0 2px 8px rgba(120,80,40,0.25)",
+              background: "linear-gradient(160deg, #C8C8C8 0%, #888888 100%)",
+              border: "2px solid #888888",
+              boxShadow: "0 2px 8px rgba(80,80,80,0.25)",
               cursor: "pointer",
               display: "flex",
               flexDirection: "column",
@@ -438,8 +438,8 @@ export default function WardrobePage() {
               padding: 0,
             }}
           >
-            <span style={{ fontSize: pW(ir, 0.022), fontWeight: 900, color: "#3A2210", letterSpacing: "0.06em", fontFamily: "var(--font-display)" }}>SAVE</span>
-            <span style={{ fontSize: pW(ir, 0.019), fontWeight: 800, color: "#3A2210", letterSpacing: "0.04em", fontFamily: "var(--font-display)" }}>CASE 🤎</span>
+            <span style={{ fontSize: pW(ir, 0.022), fontWeight: 900, color: "#1A1A1A", letterSpacing: "0.06em", fontFamily: "var(--font-display)" }}>SAVE</span>
+            <span style={{ fontSize: pW(ir, 0.019), fontWeight: 800, color: "#1A1A1A", letterSpacing: "0.04em", fontFamily: "var(--font-display)" }}>CASE 🤎</span>
           </button>
         </>
       )}
@@ -508,9 +508,9 @@ export default function WardrobePage() {
                       disabled={!saveName.trim() || saveOutfit.isPending}
                       style={{
                         flex: 1, height: 40, borderRadius: 20,
-                        border: "2px solid #B8894E",
-                        background: "linear-gradient(to bottom, #E8D4B0, #B8894E)",
-                        color: "#3A2210", fontWeight: 800, fontSize: 13,
+                        border: "2px solid #888888",
+                        background: "linear-gradient(to bottom, #C8C8C8, #888888)",
+                        color: "#1A1A1A", fontWeight: 800, fontSize: 13,
                         cursor: saveName.trim() ? "pointer" : "default",
                         opacity: saveName.trim() ? 1 : 0.45,
                         fontFamily: "var(--font-display)",
