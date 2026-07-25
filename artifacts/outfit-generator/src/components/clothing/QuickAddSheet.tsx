@@ -27,10 +27,10 @@ import { encodeToPng } from "@/lib/processImage";
 type Category = "outfits" | "beauty" | "toiletries" | "essentials";
 
 const CATEGORY_LABELS: Record<Category, string> = {
-  outfits:    "Outfits",
-  beauty:     "Beauty",
-  toiletries: "Toiletries",
-  essentials: "Essentials",
+  outfits:    "Tools",
+  beauty:     "Parts",
+  toiletries: "Vehicles",
+  essentials: "Storage",
 };
 
 type Phase =

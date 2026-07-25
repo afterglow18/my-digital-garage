@@ -22,9 +22,16 @@ import { getImageUrl } from "@/lib/utils";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+type SelectOption = string | { value: string; label: string };
+
 const SEASON_OPTIONS    = ["", "Spring", "Summer", "Fall", "Winter", "All Season"];
 const OCCASION_OPTIONS  = ["", "Casual", "Work", "Formal", "Sport", "Special Event"];
-const CATEGORY_OPTIONS  = ["outfits", "beauty", "toiletries", "essentials"];
+const CATEGORY_OPTIONS: SelectOption[] = [
+  { value: "outfits",    label: "Tools"    },
+  { value: "beauty",     label: "Parts"    },
+  { value: "toiletries", label: "Vehicles" },
+  { value: "essentials", label: "Storage"  },
+];
 
 function Field({
   label,
@@ -66,7 +73,7 @@ function SelectField({
   label: string;
   value: string;
   onChange: (v: string) => void;
-  options: string[];
+  options: SelectOption[];
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -81,11 +88,11 @@ function SelectField({
                      text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-primary
                      cursor-pointer"
         >
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o || `— ${label} —`}
-            </option>
-          ))}
+          {options.map((o) => {
+            const val = typeof o === "string" ? o : o.value;
+            const lbl = typeof o === "string" ? (o || `— ${label} —`) : o.label;
+            return <option key={val} value={val}>{lbl}</option>;
+          })}
         </select>
         <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-black/40" />
       </div>
