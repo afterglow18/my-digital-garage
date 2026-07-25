@@ -1,7 +1,7 @@
 /**
  * GeneratePage — "Spin It" screen for My Digital Garage.
  *
- * Uses generate-bg.png (same 1024×1536 dimensions) with the 4-shelf layout.
+ * Uses garage-shelves-bg.jpg with the 4-shelf layout.
  * Phase machine:
  *   idle     → shelves display items; "✨ Spin It!" button at bottom
  *   spinning → carousels cycle randomly while API is in flight
@@ -240,7 +240,7 @@ export default function GeneratePage() {
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
-        src="/garage-open-bg.jpg"
+        src="/garage-shelves-bg.jpg"
         alt="My Digital Garage"
         style={{
           position: "absolute",

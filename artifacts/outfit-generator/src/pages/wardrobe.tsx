@@ -1,5 +1,5 @@
 /**
- * WardrobePage — garage-open-bg.jpg (1024×1536 PNG)
+ * WardrobePage — garage-shelves-bg.jpg (1024×1536 PNG)
  *
  * Layout: 4 shelf sections inside a Hollywood-mirror frame.
  * Items sit ON TOP of each shelf surface (bottom-anchored within each section).
@@ -54,7 +54,7 @@ const IMG_W = 1024;
 const IMG_H = 1536;
 const NAV_H = 90;
 
-// ── Landmark fractions (calibrated for garage-open-bg.jpg 989×1536) ─────────
+// ── Landmark fractions (calibrated for garage-shelves-bg.jpg) ────────────────
 // Real-photo garage, shot from above.
 // Lid interior:  y ≈ 0.05 → 0.38   (rows 1 & 2)
 // Main body:     y ≈ 0.42 → 0.80   (rows 3 & 4)
@@ -209,7 +209,7 @@ export default function WardrobePage() {
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
-        src="/garage-open-bg.jpg"
+        src="/garage-shelves-bg.jpg"
         alt="My Digital Garage"
         style={{
           position: "absolute",
