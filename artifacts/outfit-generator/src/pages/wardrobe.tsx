@@ -65,9 +65,9 @@ const LM = {
 
   rows: [
     { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // TOOLS    (shelf 1)
-    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.285 },  // PARTS    (shelf 2)
+    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.310 },  // PARTS    (shelf 2)
     { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // VEHICLES (shelf 3)
-    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.640 },  // STORAGE  (shelf 4)
+    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.665 },  // STORAGE  (shelf 4)
   ],
 
   saveAreaY: 0.84,
