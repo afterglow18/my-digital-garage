@@ -32,10 +32,10 @@ const LM = {
   doorL: 0.182,
   doorR: 0.776,
   rows: [
-    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // OUTFITS  (lid, upper)
-    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.285 },  // BEAUTY   (lid, lower)
-    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // TOILETRIES (body, upper)
-    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.640 },  // ESSENTIALS (body, lower)
+    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // TOOLS    (shelf 1)
+    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.285 },  // PARTS    (shelf 2)
+    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // VEHICLES (shelf 3)
+    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.640 },  // STORAGE  (shelf 4)
   ],
   // Action bar: from just below FRAGRANCES through the full bottom
   barY:   0.848,
@@ -74,11 +74,11 @@ const pY = (ir: ImgRect, f: number) => ir.top    + ir.height * f;
 type RowKey = "outfits" | "beauty" | "toiletries" | "essentials";
 type Phase  = "idle" | "spinning" | "result";
 
-const ROWS: { key: RowKey }[] = [
-  { key: "outfits"    },
-  { key: "beauty"     },
-  { key: "toiletries" },
-  { key: "essentials" },
+const ROWS: { key: RowKey; label: string }[] = [
+  { key: "outfits",    label: "TOOLS"    },
+  { key: "beauty",     label: "PARTS"    },
+  { key: "toiletries", label: "VEHICLES" },
+  { key: "essentials", label: "STORAGE"  },
 ];
 
 const MIN_SPIN_MS = 1600;
@@ -307,7 +307,7 @@ export default function GeneratePage() {
               const btnCY  = pY(ir, lm.btnCY);
               const btnH   = Math.max(32, pH(ir, 0.045));
 
-              const label = key.toUpperCase();
+              const label = ROWS[rowIdx].label;
               const labelY = pY(ir, lm.btnCY + (lm.sectionTop - lm.btnCY) * 0.08);
 
               return (

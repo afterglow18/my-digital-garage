@@ -43,10 +43,10 @@ type RowKey   = "outfits" | "beauty" | "toiletries" | "essentials";
 type Category = "outfits" | "beauty" | "toiletries" | "essentials";
 
 const ROWS: { key: RowKey; btnLabel: string }[] = [
-  { key: "outfits",    btnLabel: "+ ADD OUTFITS"    },
-  { key: "beauty",     btnLabel: "+ ADD BEAUTY"     },
-  { key: "toiletries", btnLabel: "+ ADD TOILETRIES" },
-  { key: "essentials", btnLabel: "+ ADD ESSENTIALS" },
+  { key: "outfits",    btnLabel: "+ ADD TOOLS"    },
+  { key: "beauty",     btnLabel: "+ ADD PARTS"    },
+  { key: "toiletries", btnLabel: "+ ADD VEHICLES" },
+  { key: "essentials", btnLabel: "+ ADD STORAGE"  },
 ];
 
 // ── Image constants ───────────────────────────────────────────────────────────
@@ -64,10 +64,10 @@ const LM = {
   doorR: 0.776,  // inner right wall
 
   rows: [
-    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // OUTFITS  (lid, upper)
-    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.285 },  // BEAUTY   (lid, lower)
-    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // TOILETRIES (body, upper)
-    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.640 },  // ESSENTIALS (body, lower)
+    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // TOOLS    (shelf 1)
+    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.285 },  // PARTS    (shelf 2)
+    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // VEHICLES (shelf 3)
+    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.640 },  // STORAGE  (shelf 4)
   ],
 
   saveAreaY: 0.84,
