@@ -29,16 +29,17 @@ const NAV_H = 90;
 const GREY  = "#C8C8C8";
 
 const LM = {
-  doorL: 0.182,
-  doorR: 0.776,
+  doorL: 0.37,  // inner left wall of shelving unit
+  doorR: 0.76,  // inner right wall of shelving unit
   rows: [
-    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // TOOLS    (shelf 1)
-    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.310 },  // PARTS    (shelf 2)
-    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // VEHICLES (shelf 3)
-    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.665 },  // STORAGE  (shelf 4)
+    // sectionTop = top of bay, shelfY = shelf surface (bottom of bay)
+    { sectionTop: 0.08, shelfY: 0.29, btnCY: 0.06 },  // Bay 1: TOOLS    (top bay)
+    { sectionTop: 0.34, shelfY: 0.46, btnCY: 0.30 },  // Bay 2: PARTS
+    { sectionTop: 0.50, shelfY: 0.63, btnCY: 0.46 },  // Bay 3: VEHICLES
+    { sectionTop: 0.67, shelfY: 0.81, btnCY: 0.63 },  // Bay 4: STORAGE
   ],
-  // Action bar: from just below FRAGRANCES through the full bottom
-  barY:   0.848,
+  // Action bar: below the shelving unit, above the bottom nav
+  barY:   0.84,
   barBot: 1.000,
 } as const;
 

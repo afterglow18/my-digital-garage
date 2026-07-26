@@ -1,20 +1,18 @@
 /**
  * WardrobePage — garage-shelves-bg.jpg (1024×1536 PNG)
  *
- * Layout: 4 shelf sections inside a Hollywood-mirror frame.
- * Items sit ON TOP of each shelf surface (bottom-anchored within each section).
- * Baked-in pink "ADD X" pills show through the background when shelves are empty;
- * a React-rendered transparent tap zone handles the click.
- * When items are present, the carousel fills the section and covers the pill.
+ * Layout: 4 shelf bays inside a garage shelving unit.
+ * Items sit in each bay, with carousels spanning sectionTop → shelfY.
+ * A transparent tap zone (at btnCY, above sectionTop) handles ADD clicks.
+ * When items are present the carousel fills the bay; when empty the label shows.
  *
- * Sections (y-fractions of image height):
- *   Section 1 (TOPS):        0.19 → 0.39
- *   Section 2 (BOTTOMS):     0.39 → 0.55
- *   Section 3 (SHOES):       0.55 → 0.71
- *   Section 4 (ACCESSORIES): 0.71 → 0.85
+ * Shelf bay positions (y-fractions of image height, calibrated for garage-shelves-bg.jpg):
+ *   Bay 1 (OUTFITS):     0.08 → 0.29   (top bay, below ceiling light)
+ *   Bay 2 (BEAUTY):      0.34 → 0.46
+ *   Bay 3 (TOILETRIES):  0.50 → 0.63
+ *   Bay 4 (ESSENTIALS):  0.67 → 0.81
  *
- * No rod-overlay technique needed — shelf surfaces are already below items.
- * Save outfit: floating pill button at the top of the mirror.
+ * Save case: circular floating button near bottom of screen.
  */
 
 import React, {
@@ -54,23 +52,25 @@ const IMG_W = 1024;
 const IMG_H = 1536;
 const NAV_H = 90;
 
-// ── Landmark fractions (calibrated for garage-shelves-bg.jpg) ────────────────
-// Real-photo garage, shot from above.
-// Lid interior:  y ≈ 0.05 → 0.38   (rows 1 & 2)
-// Main body:     y ≈ 0.42 → 0.80   (rows 3 & 4)
-// doorL/doorR:   left/right inner walls of the garage interior
+// ── Landmark fractions (calibrated for garage-shelves-bg.jpg 1024×1536) ──────
+// Garage shelving unit with 4 bays.
+// LED strips at shelf undersides measured via pixel brightness analysis.
+// doorL/doorR: inner left/right walls of the shelving unit interior.
 const LM = {
-  doorL: 0.182,  // inner left wall
-  doorR: 0.776,  // inner right wall
+  doorL: 0.37,  // inner left wall of shelving unit
+  doorR: 0.76,  // inner right wall of shelving unit
 
   rows: [
-    { sectionTop: 0.170, shelfY: 0.265, btnCY: 0.150 },  // TOOLS    (shelf 1)
-    { sectionTop: 0.305, shelfY: 0.400, btnCY: 0.310 },  // PARTS    (shelf 2)
-    { sectionTop: 0.505, shelfY: 0.618, btnCY: 0.485 },  // VEHICLES (shelf 3)
-    { sectionTop: 0.660, shelfY: 0.770, btnCY: 0.665 },  // STORAGE  (shelf 4)
+    // sectionTop = top of bay (where carousel starts)
+    // shelfY     = shelf surface (bottom of bay, where items visually rest)
+    // btnCY      = add-pill tap zone centre (above sectionTop, in shelf-board gap)
+    { sectionTop: 0.08, shelfY: 0.29, btnCY: 0.06 },  // Bay 1: TOOLS    (top bay)
+    { sectionTop: 0.34, shelfY: 0.46, btnCY: 0.30 },  // Bay 2: PARTS
+    { sectionTop: 0.50, shelfY: 0.63, btnCY: 0.46 },  // Bay 3: VEHICLES
+    { sectionTop: 0.67, shelfY: 0.81, btnCY: 0.63 },  // Bay 4: STORAGE
   ],
 
-  saveAreaY: 0.84,
+  saveAreaY: 0.85,
 } as const;
 
 // ── useImageRect ─────────────────────────────────────────────────────────────
