@@ -489,7 +489,7 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
               </button>
               <button
                 onClick={handleSave}
-                disabled={bgProcessing}
+                disabled={selected === "cleaned" && bgProcessing}
                 className="flex-2 py-3 px-5 border-2 border-black rounded-xl font-display font-bold
                            text-sm uppercase tracking-tight bg-primary
                            shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
@@ -497,7 +497,7 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
                            disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ flex: 2 }}
               >
-                {bgProcessing ? "Processing…" : "✓ Save to Garage"}
+                {selected === "cleaned" && bgProcessing ? "Processing…" : "✓ Save to Garage"}
               </button>
             </div>
           </div>

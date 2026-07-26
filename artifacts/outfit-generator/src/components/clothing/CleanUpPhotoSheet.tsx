@@ -226,10 +226,12 @@ export function CleanUpPhotoSheet({ open, imageDataUrl, onClose, onSave }: Props
               </button>
               <button
                 onClick={handleConfirm}
+                disabled={selected === "cleaned" && !cleanedUrl}
                 className="flex-2 py-3 px-5 border-2 border-black rounded-xl font-display font-bold
                            text-sm uppercase tracking-tight bg-primary
                            shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                           active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                           active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all
+                           disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ flex: 2 }}
               >
                 {selected === "cleaned" ? "✓ Save Cleaned Version" : "✓ Save Original"}
