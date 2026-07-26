@@ -1,11 +1,10 @@
 /**
  * QuickAddSheet
  *
- * Upload flow (single file):
- *   pick ──(photo chosen)──► encoding ──► preview (Original | Cleaned ✨) ──► uploading ──► close
- *
- * Upload flow (multiple files from gallery):
- *   pick ──(files chosen)──► uploading ──► close  (batch, no comparison)
+ * All photos — single or multiple — go through the same comparison flow:
+ *   pick ──(photos chosen)──► encoding ──► preview (Original | Cleaned ✨) ──► uploading
+ *                                          └── if more photos remain: loop back to encoding ──┘
+ *                                          └── no more photos: close
  */
 import React, { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -133,6 +132,13 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
   // prevents a slow first photo from clobbering a fast second one.
   const bgGenRef = useRef(0);
 
+  // Multi-photo queue — refs so advances don't cause extra re-renders
+  const fileQueueRef  = useRef<(File | Blob)[]>([]);
+  const fileIndexRef  = useRef(0);
+  const savedCountRef = useRef(0);           // how many saved so far (for auto-naming)
+  const [queueIndex, setQueueIndex] = useState(0);   // 0-based, drives "Photo X of N" display
+  const [queueTotal, setQueueTotal] = useState(1);
+
   // Two separate file inputs: one triggers camera, one opens gallery
   const cameraInputRef  = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
@@ -153,6 +159,11 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
     setBgFailed(false);
     setSelected("original");
     setProgress(null);
+    fileQueueRef.current  = [];
+    fileIndexRef.current  = 0;
+    savedCountRef.current = 0;
+    setQueueIndex(0);
+    setQueueTotal(1);
     onOpenChange(false);
   }, [onOpenChange]);
 
@@ -205,7 +216,7 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
     }
   }, []);
 
-  // ── Single-file: save chosen version to DB ─────────────────────────────────
+  // ── Save chosen version to DB, then advance queue ─────────────────────────
   const handleSave = useCallback(async () => {
     const blob = selected === "cleaned" && cleanedBlob ? cleanedBlob : originalBlob;
     if (!blob) return;
@@ -218,7 +229,8 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
         : await compressForStorage(blob);
 
       const label    = CATEGORY_LABELS[category];
-      const autoName = existingCount === 0 ? label : `${label} ${existingCount + 1}`;
+      const n        = existingCount + savedCountRef.current;
+      const autoName = n === 0 ? label : `${label} ${n + 1}`;
 
       await new Promise<void>((resolve, reject) => {
         createItem.mutate(
@@ -234,71 +246,34 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
           },
         );
       });
-      handleClose();
+
+      savedCountRef.current += 1;
+      const nextIdx = fileIndexRef.current + 1;
+      if (nextIdx < fileQueueRef.current.length) {
+        // More photos in the queue — advance and process next
+        fileIndexRef.current = nextIdx;
+        setQueueIndex(nextIdx);
+        handleFile(fileQueueRef.current[nextIdx]);
+      } else {
+        handleClose();
+      }
     } catch (err) {
       setErrorMsg(`Save failed: ${err instanceof Error ? err.message : String(err)}`);
       setPhase("preview");
     }
-  }, [selected, cleanedBlob, originalBlob, category, existingCount, createItem, queryClient, onCreated, handleClose]);
+  }, [selected, cleanedBlob, originalBlob, category, existingCount, createItem, queryClient, onCreated, handleFile, handleClose]);
 
-  // ── Multi-file batch upload (no comparison UI) ─────────────────────────────
-  const saveOneFile = useCallback(async (file: File, itemIndex: number): Promise<boolean> => {
-    try {
-      const path     = await compressForStorage(file);
-      const label    = CATEGORY_LABELS[category];
-      const n        = itemIndex + 1;
-      const autoName = n === 1 ? label : `${label} ${n}`;
-      await new Promise<void>((resolve, reject) => {
-        createItem.mutate(
-          { data: { name: autoName, category, imageObjectPath: path } },
-          {
-            onSuccess: (createdItem) => {
-              queryClient.invalidateQueries({ queryKey: getListClothingQueryKey() });
-              queryClient.invalidateQueries({ queryKey: getWardrobeStatsQueryKey() });
-              if (onCreated) onCreated(createdItem);
-              resolve();
-            },
-            onError: reject,
-          },
-        );
-      });
-      return true;
-    } catch (err) {
-      console.error("Upload / create failed:", err);
-      return false;
-    }
-  }, [category, createItem, queryClient, onCreated]);
-
-  const handleFiles = useCallback(async (files: File[]) => {
-    if (!files.length) return;
-    if (files.length === 1) {
-      // Single file → comparison flow
-      handleFile(files[0]);
-      return;
-    }
-    // Multiple files → batch flow (no comparison)
-    setErrorMsg(null);
-    setPhase("uploading");
-    setProgress({ current: 0, total: files.length });
-    let failed = 0;
-    for (let i = 0; i < files.length; i++) {
-      setProgress({ current: i + 1, total: files.length });
-      const ok = await saveOneFile(files[i], existingCount + i);
-      if (!ok) failed++;
-    }
-    setProgress(null);
-    if (failed > 0) {
-      setErrorMsg(`${failed} photo${failed > 1 ? "s" : ""} could not be saved. Please try again.`);
-      setPhase("pick");
-    } else {
-      handleClose();
-    }
-  }, [handleFile, saveOneFile, existingCount, handleClose]);
-
+  // ── Input handler — feeds ALL selected files into the queue ────────────────
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
-    if (files.length) handleFiles(files);
     e.target.value = "";
+    if (!files.length) return;
+    fileQueueRef.current  = files;
+    fileIndexRef.current  = 0;
+    savedCountRef.current = 0;
+    setQueueIndex(0);
+    setQueueTotal(files.length);
+    handleFile(files[0]);
   };
 
   if (!open) return null;
@@ -424,6 +399,7 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
 
             <p style={{ textAlign: "center", fontWeight: "bold", fontSize: 11,
                         textTransform: "uppercase", letterSpacing: 2, opacity: 0.4, margin: 0 }}>
+              {queueTotal > 1 ? `Photo ${queueIndex + 1} of ${queueTotal} — ` : ""}
               {bgProcessing ? "This will take a moment…" : bgFailed ? "Original only" : "Tap to choose"}
             </p>
 
