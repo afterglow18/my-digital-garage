@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X, Heart, Trash2, Save, ChevronDown,
+  X, Heart, Trash2, Save, ChevronDown, Sparkles,
 } from "lucide-react";
 import {
   type ClothingItem,
@@ -19,6 +19,7 @@ import {
 } from "@/hooks/useLocalDB";
 import { useQueryClient } from "@tanstack/react-query";
 import { getImageUrl } from "@/lib/utils";
+import { CleanUpPhotoSheet } from "./CleanUpPhotoSheet";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -158,15 +159,40 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
   const [form, setForm]           = useState<FormState | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Optimistic image override — set immediately when user confirms a clean-up choice
+  const [displayImageUrl, setDisplayImageUrl] = useState<string | null>(null);
+  const [cleanUpOpen,     setCleanUpOpen]     = useState(false);
+
   const updateItem  = useUpdateClothingItem();
   const deleteItem  = useDeleteClothingItem();
   const queryClient = useQueryClient();
 
-  // Reset form whenever item changes
+  // Reset form + image override whenever item changes
   useEffect(() => {
     if (item) setForm(toForm(item));
     setShowDeleteConfirm(false);
+    setDisplayImageUrl(null);
+    setCleanUpOpen(false);
   }, [item?.id]);
+
+  // Called immediately when user confirms a choice in CleanUpPhotoSheet
+  const handleCleanUpSave = (chosenUrl: string) => {
+    // 1. Update screen instantly (optimistic)
+    setDisplayImageUrl(chosenUrl);
+    // 2. Persist in background — no await, no spinner
+    if (item) {
+      updateItem.mutate(
+        { id: item.id, data: { imageObjectPath: chosenUrl } },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: getListClothingQueryKey() });
+            queryClient.invalidateQueries({ queryKey: getListOutfitsQueryKey() });
+            queryClient.invalidateQueries({ queryKey: getWardrobeStatsQueryKey() });
+          },
+        },
+      );
+    }
+  };
 
   if (!item || !form) return null;
 
@@ -222,6 +248,7 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
   };
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
@@ -287,10 +314,27 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
           }}
         >
           <img
-            src={getImageUrl(item.imageObjectPath)!}
+            src={displayImageUrl ?? getImageUrl(item.imageObjectPath)!}
             alt={item.name}
             className="w-full h-full object-contain"
           />
+        </div>
+      )}
+
+      {/* ── Clean Up Photo button (only when photo exists) ── */}
+      {item.imageObjectPath && (
+        <div className="px-4 pt-3">
+          <button
+            onClick={() => setCleanUpOpen(true)}
+            className="w-full py-2.5 flex items-center justify-center gap-2
+                       border-2 border-black rounded-xl font-display font-bold
+                       text-sm uppercase tracking-tight bg-white
+                       shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                       active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+          >
+            <Sparkles className="w-4 h-4" />
+            Clean Up Photo
+          </button>
         </div>
       )}
 
@@ -416,5 +460,16 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
         )}
       </div>
     </motion.div>
+
+    {/* ── Clean Up Photo overlay (z-80, above this sheet at z-65) ── */}
+    {cleanUpOpen && item.imageObjectPath && (
+      <CleanUpPhotoSheet
+        open={cleanUpOpen}
+        imageDataUrl={displayImageUrl ?? getImageUrl(item.imageObjectPath)!}
+        onClose={() => setCleanUpOpen(false)}
+        onSave={handleCleanUpSave}
+      />
+    )}
+  </>
   );
 }
