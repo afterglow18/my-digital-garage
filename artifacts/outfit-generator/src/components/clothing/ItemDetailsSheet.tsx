@@ -321,8 +321,9 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
         </div>
       )}
 
-      {/* ── Clean Up Photo button (only when photo exists) ── */}
-      {item.imageObjectPath && (
+      {/* ── Clean Up Photo button (only when photo exists and hasn't been cleaned yet) ── */}
+      {/* Cleaned images are always PNG data URLs; originals are JPEG via compressForStorage. */}
+      {item.imageObjectPath && !(displayImageUrl ?? item.imageObjectPath).startsWith("data:image/png") && (
         <div className="px-4 pt-3">
           <button
             onClick={() => setCleanUpOpen(true)}
