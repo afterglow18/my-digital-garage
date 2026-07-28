@@ -74,7 +74,7 @@ export function CleanUpPhotoSheet({ open, imageDataUrl, onClose, onSave }: Props
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: "100%" }}
       transition={{ type: "spring", damping: 28, stiffness: 240 }}
-      className="fixed inset-0 z-[80] flex flex-col max-w-md mx-auto bg-[#f9f4ee]"
+      className="fixed inset-0 z-[80] flex flex-col max-w-md mx-auto bg-[#F2F2F2]"
     >
       {/* ── Header ── */}
       <div

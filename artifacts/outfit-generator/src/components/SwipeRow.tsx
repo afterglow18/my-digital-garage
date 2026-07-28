@@ -322,7 +322,7 @@ export const SwipeRow = forwardRef<SwipeRowHandle, SwipeRowProps>(
                 <div
                   style={{
                     width: "100%", height: "100%", position: "relative",
-                    backgroundImage: "repeating-conic-gradient(#ede8e0 0% 25%,#f9f4ee 0% 50%)",
+                    backgroundImage: "repeating-conic-gradient(#E0E0E0 0% 25%,#EBEBEB 0% 50%)",
                     backgroundSize: "10px 10px",
                   }}
                 >

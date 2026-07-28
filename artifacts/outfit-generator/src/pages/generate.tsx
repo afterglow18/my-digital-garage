@@ -237,7 +237,7 @@ export default function GeneratePage() {
     <div
       ref={containerRef}
       className="portrait-stage"
-      style={{ background: "#C8B9A2" }}
+      style={{ background: "#E8E8E8" }}
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img

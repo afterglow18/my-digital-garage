@@ -286,7 +286,7 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: "100%" }}
       transition={{ type: "spring", damping: 28, stiffness: 240 }}
-      className="fixed inset-0 z-[70] flex flex-col max-w-md mx-auto bg-[#f9f4ee]"
+      className="fixed inset-0 z-[70] flex flex-col max-w-md mx-auto bg-[#F2F2F2]"
     >
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-4 bg-white border-b-2 border-black flex-shrink-0"
@@ -343,18 +343,6 @@ export function QuickAddSheet({ open, onOpenChange, category, existingCount, onC
                 </span>
               </button>
             </div>
-
-            {CATEGORY_EXAMPLES[category] && (
-              <div className="border-2 border-black rounded-2xl bg-white p-4
-                              shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                <p className="font-display font-bold text-sm uppercase tracking-tight mb-2 flex items-center gap-2">
-                  <span>{CATEGORY_EXAMPLES[category].emoji}</span> WHAT TO ADD
-                </p>
-                <p className="text-sm text-black/70 leading-snug">
-                  {CATEGORY_EXAMPLES[category].items.join(", ")}
-                </p>
-              </div>
-            )}
 
             <div className="border-2 border-black rounded-2xl bg-white p-4
                             shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
