@@ -324,12 +324,12 @@ export default function GeneratePage() {
               return (
                 <React.Fragment key={key}>
 
-                  {/* ── Category label — centered on full shelf width ── */}
+                  {/* ── Category label — centered over photo bay ── */}
                   <div style={{
                     position: "absolute",
                     top: labelY,
-                    left: 0,
-                    width: "100%",
+                    left: carLeft,
+                    width: carW,
                     transform: "translateY(-50%)",
                     zIndex: 12,
                     textAlign: "center",
@@ -351,7 +351,7 @@ export default function GeneratePage() {
                     <div
                       style={{
                         position: "absolute",
-                        top: secTop, left: carLeft, width: carW, height: secH,
+                        top: Math.max(secTop, labelY + pH(ir, 0.018)), left: carLeft, width: carW, height: secH,
                         zIndex: 10, overflow: "visible",
                       }}
                     >

@@ -307,13 +307,13 @@ export default function WardrobePage() {
             return (
               <React.Fragment key={key}>
 
-                {/* ── Category label — centered on full shelf width ── */}
+                {/* ── Category label — centered over photo bay ── */}
                 <div
                   style={{
                     position: "absolute",
                     top: labelY,
-                    left: 0,
-                    width: "100%",
+                    left: carLeft,
+                    width: carW,
                     transform: "translateY(-50%)",
                     zIndex: 23,
                     textAlign: "center",
@@ -332,13 +332,13 @@ export default function WardrobePage() {
                   </span>
                 </div>
 
-                {/* ── Item carousel — fills the section between buttons ── */}
+                {/* ── Item carousel — starts below heading with a small gap ── */}
                 {items.length > 0 && (
                   <div
                     data-testid={`row-${key}`}
                     style={{
                       position: "absolute",
-                      top:    secTop,
+                      top:    Math.max(secTop, labelY + pH(ir, 0.018)),
                       left:   carLeft,
                       width:  carW,
                       height: secH,
