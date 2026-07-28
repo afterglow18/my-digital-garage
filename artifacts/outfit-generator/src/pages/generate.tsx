@@ -411,11 +411,11 @@ export default function GeneratePage() {
                     fontSize: 10, fontWeight: 800,
                     letterSpacing: "0.13em", textTransform: "uppercase",
                     color: "#1A1A1A",
-                    background: "rgba(240,225,196,0.90)",
+                    background: "rgba(210,210,210,0.92)",
                     padding: "3px 11px", borderRadius: 20,
                     whiteSpace: "nowrap",
                   }}>
-                    Packing your garage…
+                    Arranging Your Garage…
                   </span>
                 </motion.div>
               )}
