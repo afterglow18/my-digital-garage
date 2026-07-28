@@ -332,7 +332,7 @@ export default function WardrobePage() {
                     data-testid={`row-${key}`}
                     style={{
                       position: "absolute",
-                      top:    Math.max(secTop, labelY + pH(ir, 0.018)),
+                      top:    Math.max(secTop, labelY + pH(ir, 0.026)),
                       left:   carLeft,
                       width:  carW,
                       height: uniformPhotoH,
