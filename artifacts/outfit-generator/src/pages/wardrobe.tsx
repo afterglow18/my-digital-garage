@@ -40,11 +40,11 @@ import { FREE_ITEM_LIMIT } from "@/lib/entitlements";
 type RowKey   = "outfits" | "beauty" | "toiletries" | "essentials";
 type Category = "outfits" | "beauty" | "toiletries" | "essentials";
 
-const ROWS: { key: RowKey; btnLabel: string }[] = [
-  { key: "outfits",    btnLabel: "+ ADD TOOLS"    },
-  { key: "beauty",     btnLabel: "+ ADD PARTS"    },
-  { key: "toiletries", btnLabel: "+ ADD VEHICLES" },
-  { key: "essentials", btnLabel: "+ ADD STORAGE"  },
+const ROWS: { key: RowKey; label: string; btnLabel: string }[] = [
+  { key: "outfits",    label: "TOOLS",    btnLabel: "+ ADD TOOLS"    },
+  { key: "beauty",     label: "PARTS",    btnLabel: "+ ADD PARTS"    },
+  { key: "toiletries", label: "VEHICLES", btnLabel: "+ ADD VEHICLES" },
+  { key: "essentials", label: "STORAGE",  btnLabel: "+ ADD STORAGE"  },
 ];
 
 // ── Image constants ───────────────────────────────────────────────────────────
@@ -297,10 +297,8 @@ export default function WardrobePage() {
             return (
               <React.Fragment key={key}>
 
-                {/* ── Category label (tappable → add photo) ── */}
-                <button
-                  onClick={addHandlers[key]}
-                  aria-label={btnLabel}
+                {/* ── Category label — matches generate page style ── */}
+                <div
                   style={{
                     position: "absolute",
                     top: labelY,
@@ -309,10 +307,7 @@ export default function WardrobePage() {
                     transform: "translateY(-50%)",
                     zIndex: 23,
                     textAlign: "center",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 0,
+                    pointerEvents: "none",
                   }}
                 >
                   <span style={{
@@ -323,9 +318,9 @@ export default function WardrobePage() {
                     fontFamily: "var(--font-display)",
                     textTransform: "uppercase",
                   }}>
-                    {btnLabel}
+                    {ROWS[rowIdx].label}
                   </span>
-                </button>
+                </div>
 
                 {/* ── Item carousel — fills the section between buttons ── */}
                 {items.length > 0 && (

@@ -1,5 +1,5 @@
 /**
- * ItemDetailsSheet — full-screen overlay showing a clothing item's details.
+ * ItemDetailsSheet — full-screen overlay showing a garage item's details.
  * Every field is optional and editable. A "Save" button appears only when
  * the form is dirty. Delete is always available.
  */
@@ -25,8 +25,10 @@ import { CleanUpPhotoSheet } from "./CleanUpPhotoSheet";
 
 type SelectOption = string | { value: string; label: string };
 
-const SEASON_OPTIONS    = ["", "Spring", "Summer", "Fall", "Winter", "All Season"];
-const OCCASION_OPTIONS  = ["", "Casual", "Work", "Formal", "Sport", "Special Event"];
+// "season" field repurposed → item Condition
+const SEASON_OPTIONS    = ["", "New", "Like New", "Good", "Fair", "For Parts"];
+// "occasion" field repurposed → Storage Location
+const OCCASION_OPTIONS  = ["", "Garage", "Toolbox", "Shelf", "Workshop", "Vehicle", "Storage Unit"];
 const CATEGORY_OPTIONS: SelectOption[] = [
   { value: "outfits",    label: "Tools"    },
   { value: "beauty",     label: "Parts"    },
@@ -347,7 +349,7 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
           label="Item Name"
           value={form.name}
           onChange={patch("name") as (v: string) => void}
-          placeholder="e.g. White Linen Shirt"
+          placeholder="e.g. Snap-on Ratchet Set"
         />
 
         {/* Brand + Color */}
@@ -356,13 +358,13 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
           <Field label="Color"  value={form.color} onChange={patch("color") as (v: string) => void} placeholder="Navy Blue" />
         </div>
 
-        {/* Size */}
-        <Field label="Size / Volume" value={form.size} onChange={patch("size") as (v: string) => void} placeholder="30ml, 50ml, Full Size…" />
+        {/* Model / Size */}
+        <Field label="Model / Size" value={form.size} onChange={patch("size") as (v: string) => void} placeholder="e.g. 3/8in, 1L, 10mm…" />
 
-        {/* Season + Occasion */}
+        {/* Condition + Location */}
         <div className="grid grid-cols-2 gap-3">
-          <SelectField label="Season"   value={form.season}   onChange={patch("season") as (v: string) => void}   options={SEASON_OPTIONS} />
-          <SelectField label="Occasion" value={form.occasion} onChange={patch("occasion") as (v: string) => void} options={OCCASION_OPTIONS} />
+          <SelectField label="Condition" value={form.season}   onChange={patch("season") as (v: string) => void}   options={SEASON_OPTIONS} />
+          <SelectField label="Location"  value={form.occasion} onChange={patch("occasion") as (v: string) => void} options={OCCASION_OPTIONS} />
         </div>
 
         {/* Price + Date */}
@@ -396,7 +398,7 @@ export function ItemDetailsSheet({ item, onClose, onDeleted }: ItemDetailsSheetP
             options={CATEGORY_OPTIONS}
           />
           <div className="flex flex-col gap-1 opacity-50 pointer-events-none">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Times Worn</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Times Used</span>
             <div className="border-2 border-black/20 rounded-lg px-3 py-2 text-sm font-medium bg-white/50">
               {item.timesWorn ?? 0}
             </div>
