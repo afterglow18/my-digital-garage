@@ -209,7 +209,7 @@ export default function WardrobePage() {
     >
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
-        src="/garage-shelves-bg.jpg"
+        src="/garage-shelves-bg.png"
         alt="My Digital Garage"
         style={{
           position: "absolute",
