@@ -231,6 +231,7 @@ export default function GeneratePage() {
   const sectionHeights = ready
     ? LM.rows.map(lm => pH(ir, lm.shelfY - lm.sectionTop))
     : LM.rows.map(() => 0);
+  const uniformPhotoH = Math.max(0, Math.min(...sectionHeights) - 4);
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
@@ -351,7 +352,7 @@ export default function GeneratePage() {
                     <div
                       style={{
                         position: "absolute",
-                        top: Math.max(secTop, labelY + pH(ir, 0.018)), left: carLeft, width: carW, height: secH,
+                        top: Math.max(secTop, labelY + pH(ir, 0.018)), left: carLeft, width: carW, height: uniformPhotoH,
                         zIndex: 10, overflow: "visible",
                       }}
                     >
@@ -359,7 +360,7 @@ export default function GeneratePage() {
                         ref={rowRefs[key]}
                         items={items}
                         onCenteredItem={setCentredHandlers[key]}
-                        maxPhotoH={Math.max(0, sectionHeights[rowIdx] - 4)}
+                        maxPhotoH={uniformPhotoH}
                         disableSwipe
                       />
                     </div>

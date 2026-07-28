@@ -335,7 +335,7 @@ export default function WardrobePage() {
                       top:    Math.max(secTop, labelY + pH(ir, 0.018)),
                       left:   carLeft,
                       width:  carW,
-                      height: secH,
+                      height: uniformPhotoH,
                       zIndex: 10,
                       overflow: "visible",
                     }}
