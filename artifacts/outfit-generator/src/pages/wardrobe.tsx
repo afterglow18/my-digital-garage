@@ -292,18 +292,18 @@ export default function WardrobePage() {
             const btnCY   = pY(ir, lm.btnCY);
             const btnH    = Math.max(32, pH(ir, 0.045));
 
-            const labelY = pY(ir, lm.btnCY + (lm.sectionTop - lm.btnCY) * 0.08);
+            const labelY = pY(ir, lm.sectionTop + 0.015);
 
             return (
               <React.Fragment key={key}>
 
-                {/* ── Category label — matches generate page style ── */}
+                {/* ── Category label — centered on full shelf width ── */}
                 <div
                   style={{
                     position: "absolute",
                     top: labelY,
-                    left: carLeft,
-                    width: carW,
+                    left: 0,
+                    width: "100%",
                     transform: "translateY(-50%)",
                     zIndex: 23,
                     textAlign: "center",

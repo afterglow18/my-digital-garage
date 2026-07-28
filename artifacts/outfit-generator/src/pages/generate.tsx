@@ -309,17 +309,17 @@ export default function GeneratePage() {
               const btnH   = Math.max(32, pH(ir, 0.045));
 
               const label = ROWS[rowIdx].label;
-              const labelY = pY(ir, lm.btnCY + (lm.sectionTop - lm.btnCY) * 0.08);
+              const labelY = pY(ir, lm.sectionTop + 0.015);
 
               return (
                 <React.Fragment key={key}>
 
-                  {/* ── Category label ── */}
+                  {/* ── Category label — centered on full shelf width ── */}
                   <div style={{
                     position: "absolute",
                     top: labelY,
-                    left: carLeft,
-                    width: carW,
+                    left: 0,
+                    width: "100%",
                     transform: "translateY(-50%)",
                     zIndex: 12,
                     textAlign: "center",
