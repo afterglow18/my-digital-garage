@@ -160,7 +160,7 @@ export default function SavedPage() {
   };
 
   return (
-    <div className="min-h-full flex flex-col pt-8 px-4 pb-8 bg-secondary/10 relative">
+    <div className="min-h-full flex flex-col pt-8 px-4 pb-8 relative" style={{ background: "#F2F2F2" }}>
       <header className="mb-6">
         <h1 className="text-4xl font-display font-bold uppercase tracking-tighter mb-1">Lookbook</h1>
         <div className="flex items-center justify-between">
@@ -414,7 +414,7 @@ export default function SavedPage() {
           <div className="w-14 h-14 bg-accent rounded-full flex items-center justify-center border-2 border-black mb-4">
             <Bookmark className="w-7 h-7" />
           </div>
-          <h3 className="font-display font-bold text-xl mb-2">No looks saved yet.</h3>
+          <h3 className="font-display font-bold text-xl mb-2">Nothing saved yet.</h3>
           <p className="text-sm font-medium text-muted-foreground">
             Head to your Garage to save and organize your tools, parts, and projects.
           </p>
