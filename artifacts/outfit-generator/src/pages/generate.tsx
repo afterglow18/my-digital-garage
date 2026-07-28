@@ -309,7 +309,7 @@ export default function GeneratePage() {
               const btnH   = Math.max(32, pH(ir, 0.045));
 
               const label = ROWS[rowIdx].label;
-              const labelY = pY(ir, lm.sectionTop + 0.005);
+              const labelY = pY(ir, lm.sectionTop - 0.005);
 
               return (
                 <React.Fragment key={key}>
