@@ -350,22 +350,21 @@ export default function WardrobePage() {
                   </div>
                 )}
 
-                {/* ── ADD button ──────────────────────────────────────────
-                    Always a transparent tap zone sitting exactly over the
-                    baked-in pink pill in the background image (at btnCY).
-                    The carousel lives BELOW the pill (sectionTop > btnCY),
-                    so this zone is never obscured by items.               */}
+                {/* ── ADD button — covers the full bay so any tap in empty
+                    shelf space triggers add. z-index 5 keeps it below the
+                    photo carousel (z-index 10) so tapping a photo still
+                    opens item details rather than the add flow.           */}
                 <button
                   onClick={addHandlers[key]}
                   aria-label={btnLabel}
                   data-testid={`add-btn-${key}`}
                   style={{
                     position: "absolute",
-                    top:    btnCY - btnH / 2,
+                    top:    secTop,
                     left:   carLeft,
                     width:  carW,
-                    height: btnH,
-                    zIndex: 22,
+                    height: secH,
+                    zIndex: 5,
                     background: "transparent",
                     border: "none",
                     cursor: "pointer",
