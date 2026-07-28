@@ -275,7 +275,7 @@ export default function GeneratePage() {
             {/* ── Page title ── */}
             <div style={{
               position: "absolute",
-              top: pY(ir, 0.095),
+              top: pY(ir, 0.075),
               left: 8,
               right: 8,
               zIndex: 25,
@@ -332,7 +332,7 @@ export default function GeneratePage() {
                     left: carLeft,
                     width: carW,
                     transform: "translateY(-50%)",
-                    zIndex: 12,
+                    zIndex: 23,
                     textAlign: "center",
                     pointerEvents: "none",
                   }}>
@@ -367,14 +367,14 @@ export default function GeneratePage() {
                   ) : (
                     <div style={{
                       position: "absolute",
-                      top: secTop, left: carLeft, width: carW, height: secH,
+                      top: Math.max(secTop, labelY + pH(ir, 0.018)), left: carLeft, width: carW, height: uniformPhotoH,
                       zIndex: 10,
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
                       <span style={{
                         fontSize: 10, fontWeight: 700,
                         letterSpacing: "0.09em", textTransform: "uppercase",
-                        color: "rgba(180,100,110,0.40)",
+                        color: "rgba(200,200,200,0.45)",
                       }}>
                         No items
                       </span>
