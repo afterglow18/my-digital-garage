@@ -44,16 +44,27 @@ export default function WelcomePage({ onEnter }: Props) {
       }}
     >
       {/* ── Hero background image ── */}
+      {/* objectFit: "contain" shows the full landscape garage scene without cropping.
+          background fills the letterbox areas with near-black so the dark overlay
+          blends seamlessly over empty space. */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "#0d0d0d",
+        zIndex: 0,
+      }} />
       <img
         src="/garage-hero-bg.jpg"
         alt="My Digital Garage"
         draggable={false}
         style={{
-          position: "absolute", inset: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          zIndex: 0,
+          position: "absolute",
+          top: 0, left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          height: "70%",
+          objectFit: "contain",
+          objectPosition: "center top",
+          zIndex: 1,
           userSelect: "none",
           pointerEvents: "none",
         }}
@@ -63,7 +74,7 @@ export default function WelcomePage({ onEnter }: Props) {
       <div style={{
         position: "absolute", inset: 0,
         background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.82) 100%)",
-        zIndex: 1,
+        zIndex: 2,
       }} />
 
       {/* ── Main content ── */}
