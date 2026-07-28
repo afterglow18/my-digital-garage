@@ -89,8 +89,8 @@ function TierCard({
       onClick={() => onSelect(id)}
       className="flex-1 flex flex-col rounded-xl border-[3px] transition-all relative overflow-hidden text-left"
       style={{
-        borderColor: selected ? "#000" : "#C9BAA5",
-        background:  selected ? "hsl(35 55% 82%)" : "hsl(35 30% 93%)",
+        borderColor: selected ? "#000" : "#BBBBBB",
+        background:  selected ? "hsl(0 0% 85%)" : "hsl(0 0% 93%)",
         boxShadow:   selected ? "3px 3px 0px 0px rgba(0,0,0,1)" : "none",
       }}
     >
@@ -170,21 +170,33 @@ export function UpgradeSheet({ reason, onClose }: Props) {
       exit={{ opacity: 0, y: "100%" }}
       transition={{ type: "spring", damping: 28, stiffness: 240 }}
       className="fixed inset-0 z-[80] flex flex-col max-w-md mx-auto"
-      style={{ background: "#F8F4ED" }}
+      style={{ background: "#F2F2F2" }}
     >
-      {/* Close button */}
-      <div className="flex justify-end px-4 pb-0 flex-shrink-0"
-        style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="w-9 h-9 rounded-full border-2 border-black flex items-center justify-center
-                     bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
-                     active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all"
-        >
-          <X className="w-4 h-4" />
-        </button>
-      </div>
+      {/* ── Grey plaid header ── */}
+      <div style={{
+        flexShrink: 0,
+        paddingTop: "env(safe-area-inset-top, 0px)",
+        background: [
+          "repeating-linear-gradient(0deg,   transparent, transparent 17px, rgba(60,60,60,0.13) 17px, rgba(60,60,60,0.13) 18px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 17px, rgba(60,60,60,0.13) 17px, rgba(60,60,60,0.13) 18px)",
+          "repeating-linear-gradient(0deg,   transparent, transparent 5px,  rgba(60,60,60,0.07) 5px,  rgba(60,60,60,0.07) 6px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 5px,  rgba(60,60,60,0.07) 5px,  rgba(60,60,60,0.07) 6px)",
+          "#CECECE",
+        ].join(", "),
+      }}>
+        {/* Close button */}
+        <div className="flex justify-end px-4 pb-3" style={{ paddingTop: "max(1rem, 0px)" }}>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="w-9 h-9 rounded-full border-2 border-black flex items-center justify-center
+                       bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                       active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>{/* ── end plaid header ── */}
 
       {/* Content — fills remaining height, no scroll */}
       <div className="flex-1 min-h-0 flex flex-col justify-between px-5 pt-3 pb-2">
@@ -203,11 +215,11 @@ export function UpgradeSheet({ reason, onClose }: Props) {
         <div className="rounded-2xl border-[3px] border-black overflow-hidden" style={{ background: "#111" }}>
           <div className="px-4 py-4 flex flex-col gap-2">
             <p className="font-display font-bold uppercase text-[1.45rem] leading-[0.92] tracking-tight"
-               style={{ color: "hsl(35 55% 82%)" }}>
+               style={{ color: "#D4D4D4" }}>
               Unlimited packed garages
             </p>
             <p className="font-display font-bold uppercase text-[1.45rem] leading-[0.92] tracking-tight"
-               style={{ color: "hsl(35 55% 82%)" }}>
+               style={{ color: "#D4D4D4" }}>
               Unlimited saved outfits
             </p>
             <p className="text-white/60 text-xs font-medium mt-1 leading-snug">
