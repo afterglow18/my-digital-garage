@@ -453,7 +453,7 @@ export default function GeneratePage() {
             )}
 
 
-            {/* ── Action bar — white panel behind buttons ── */}
+            {/* ── Action bar — light grey panel behind buttons ── */}
             <div
               aria-hidden="true"
               style={{
@@ -464,23 +464,25 @@ export default function GeneratePage() {
                 height: pH(ir, LM.barBot - LM.barY),
                 zIndex: 18,
                 pointerEvents: "none",
-                background: "rgba(245,237,216,0.96)",
-                borderTop: "1px solid rgba(180,140,90,0.25)",
+                background: "rgba(224,224,224,0.97)",
+                borderTop: "1px solid rgba(0,0,0,0.10)",
               }}
             />
 
-            {/* ── CTA buttons ── */}
+            {/* ── CTA buttons — centered on full page width ── */}
             <div
               style={{
                 position: "absolute",
                 top:    pY(ir, LM.barY),
-                left:   pX(ir, LM.doorL),
-                width:  pW(ir, LM.doorR - LM.doorL),
+                left:   0,
+                width:  "100%",
                 height: pH(ir, LM.barBot - LM.barY),
                 zIndex: 22,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                paddingLeft: 24,
+                paddingRight: 24,
               }}
             >
               <AnimatePresence mode="wait">
@@ -499,9 +501,9 @@ export default function GeneratePage() {
                       width: "100%", height: 52, borderRadius: 28,
                       border: "2.5px solid #888888",
                       background: hasItems
-                        ? "linear-gradient(to bottom, #C8C8C8, #888888)"
-                        : "rgba(200,175,140,0.32)",
-                      color: hasItems ? "#1A1A1A" : "#555555",
+                        ? "linear-gradient(to bottom, #666666, #333333)"
+                        : "rgba(160,160,160,0.32)",
+                      color: hasItems ? "#F0F0F0" : "#888888",
                       fontWeight: 800, fontSize: 16,
                       letterSpacing: "-0.01em", textTransform: "uppercase",
                       whiteSpace: "nowrap",
@@ -527,8 +529,8 @@ export default function GeneratePage() {
                       padding: "0 24px", height: 44,
                       alignItems: "center", justifyContent: "center",
                       borderRadius: 24,
-                      background: "rgba(240,225,196,0.85)",
-                      border: "1.5px solid rgba(180,140,90,0.28)",
+                      background: "rgba(210,210,210,0.90)",
+                      border: "1.5px solid rgba(0,0,0,0.12)",
                     }}
                   >
                     {[0, 1, 2].map(i => (
