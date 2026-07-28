@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { Shirt, Sparkles, Bookmark, Settings } from "lucide-react";
+import { Car, Sparkles, Bookmark, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetWardrobeStats } from "@/hooks/useLocalDB";
 
@@ -21,7 +21,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     : undefined;
 
   const navItems = [
-    { href: "/",         label: "Garage",   icon: Shirt,    badge: wardrobeCount },
+    { href: "/",         label: "Garage",   icon: Car,      badge: wardrobeCount },
     { href: "/generate", label: "Generate", icon: Sparkles                       },
     { href: "/saved",    label: "Saved",    icon: Bookmark                       },
     { href: "/account",  label: "Settings", icon: Settings                       },
@@ -63,7 +63,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 />
                 <span className="flex-1">{label}</span>
                 {badge !== undefined && badge > 0 && (
-                  <div className="bg-secondary text-black text-[10px] font-bold border-2 border-black w-5 h-5 flex items-center justify-center rounded-full shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="bg-[#555] text-white text-[10px] font-bold border-2 border-black w-5 h-5 flex items-center justify-center rounded-full shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
                     {badge > 99 ? "99+" : badge}
                   </div>
                 )}
@@ -114,7 +114,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                         strokeWidth={isActive ? 2.5 : 2}
                       />
                       {item.badge !== undefined && item.badge > 0 && (
-                        <div className="absolute -top-2 -right-2 bg-secondary text-black text-[10px] font-bold border-2 border-black w-5 h-5 flex items-center justify-center rounded-full shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="absolute -top-2 -right-2 bg-[#555] text-white text-[10px] font-bold border-2 border-black w-5 h-5 flex items-center justify-center rounded-full shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
                           {item.badge > 99 ? "99+" : item.badge}
                         </div>
                       )}
