@@ -42,7 +42,7 @@ function ItemPhoto({
     <button
       onClick={onClick}
       className={`w-full ${sizeClass} border-2 border-black overflow-hidden relative`}
-      style={{ background: "#F5EDD8", padding: 0, display: "block" }}
+      style={{ background: "#F2F2F2", padding: 0, display: "block" }}
     >
       {item.imageObjectPath ? (
         <img
@@ -365,7 +365,7 @@ export default function SavedPage() {
                             <button
                               onClick={() => setDetailsItem(item)}
                               className="w-full aspect-square border-2 border-black overflow-hidden rounded"
-                              style={{ background: "#F5EDD8" }}
+                              style={{ background: "#F2F2F2" }}
                             >
                               {item.imageObjectPath ? (
                                 <img src={getImageUrl(item.imageObjectPath)!} alt={item.name} className="w-full h-full object-contain" />
@@ -416,7 +416,7 @@ export default function SavedPage() {
           </div>
           <h3 className="font-display font-bold text-xl mb-2">No looks saved yet.</h3>
           <p className="text-sm font-medium text-muted-foreground">
-            Head to your Garage, spin the slots, and save cases you love.
+            Head to your Garage to save and organize your tools, parts, and projects.
           </p>
         </div>
       )}
