@@ -218,10 +218,7 @@ export function UpgradeSheet({ reason, onClose }: Props) {
                style={{ color: "#D4D4D4" }}>
               Unlimited packed garages
             </p>
-            <p className="font-display font-bold uppercase text-[1.45rem] leading-[0.92] tracking-tight"
-               style={{ color: "#D4D4D4" }}>
-              Unlimited saved outfits
-            </p>
+
             <p className="text-white/60 text-xs font-medium mt-1 leading-snug">
               Your entire wardrobe, beautifully packed — forever.
             </p>
