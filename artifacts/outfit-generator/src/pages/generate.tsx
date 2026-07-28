@@ -352,7 +352,7 @@ export default function GeneratePage() {
                     <div
                       style={{
                         position: "absolute",
-                        top: Math.max(secTop, labelY + pH(ir, 0.026)), left: carLeft, width: carW, height: uniformPhotoH,
+                        top: Math.max(secTop, labelY + pH(ir, 0.032)), left: carLeft, width: carW, height: uniformPhotoH,
                         zIndex: 10, overflow: "visible",
                       }}
                     >
