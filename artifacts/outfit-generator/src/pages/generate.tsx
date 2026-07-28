@@ -318,7 +318,7 @@ export default function GeneratePage() {
               const btnH   = Math.max(32, pH(ir, 0.045));
 
               const label = ROWS[rowIdx].label;
-              const labelYOffsets = [0.052, -0.020, -0.005, -0.005];
+              const labelYOffsets = [0.052, -0.028, -0.013, -0.013];
               const labelY = pY(ir, lm.sectionTop + labelYOffsets[rowIdx]);
 
               return (
