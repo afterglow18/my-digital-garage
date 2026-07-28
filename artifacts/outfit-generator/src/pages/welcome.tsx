@@ -207,32 +207,36 @@ export default function WelcomePage({ onEnter }: Props) {
           ))}
         </div>
 
-        {/* "Open Garage" button — travels upward with the door */}
-        <motion.button
-          onClick={handleOpen}
-          whileTap={{ scale: 0.96 }}
-          style={{
-            position: "absolute",
-            bottom: "clamp(120px, 25vh, 190px)",
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontFamily: "var(--font-display, sans-serif)",
-            fontWeight: 800, fontSize: 16,
-            letterSpacing: "0.03em",
-            color: "#1A1A1A",
-            background: "linear-gradient(to bottom, #C8C8C8, #888888)",
-            border: "1.5px solid #888888",
-            borderRadius: 100,
-            padding: "14px 44px",
-            cursor: "pointer",
-            boxShadow: "0 4px 24px rgba(80,80,80,0.45), 2px 2px 0 rgba(0,0,0,0.7)",
-            whiteSpace: "nowrap" as const,
-            zIndex: 11,
-            userSelect: "none" as const,
-          }}
-        >
-          Open Garage ✨
-        </motion.button>
+        {/* "Open Garage" button — travels upward with the door.
+            Centred via flex wrapper so whileTap's scale doesn't fight translateX. */}
+        <div style={{
+          position: "absolute",
+          bottom: "clamp(120px, 25vh, 190px)",
+          left: 0, right: 0,
+          display: "flex", justifyContent: "center",
+          zIndex: 11,
+        }}>
+          <motion.button
+            onClick={handleOpen}
+            whileTap={{ scale: 0.96 }}
+            style={{
+              fontFamily: "var(--font-display, sans-serif)",
+              fontWeight: 800, fontSize: 16,
+              letterSpacing: "0.03em",
+              color: "#1A1A1A",
+              background: "linear-gradient(to bottom, #C8C8C8, #888888)",
+              border: "1.5px solid #888888",
+              borderRadius: 100,
+              padding: "14px 44px",
+              cursor: "pointer",
+              boxShadow: "0 4px 24px rgba(80,80,80,0.45), 2px 2px 0 rgba(0,0,0,0.7)",
+              whiteSpace: "nowrap" as const,
+              userSelect: "none" as const,
+            }}
+          >
+            Open Garage ✨
+          </motion.button>
+        </div>
 
       </motion.div>
 
