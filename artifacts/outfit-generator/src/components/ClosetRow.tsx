@@ -33,7 +33,7 @@ const SCALE_CTR   = 1.12;            // center card is 12% larger
 const SCALE_SIDE  = 0.88;            // side cards are 88% of center
 const OPACITY_SIDE = 0.72;           // side cards fade to 72%
 const BG_CENTER   = "rgba(230,230,230,0.88)";   // light grey card, same opacity as original
-const SHADOW_CTR  = "0 4px 18px rgba(0,0,0,0.40), 0 1px 4px rgba(0,0,0,0.20)";
+const SHADOW_CTR  = "0 0 22px 7px rgba(255,248,210,0.55), 0 0 8px 2px rgba(255,255,255,0.45), 0 4px 14px rgba(0,0,0,0.30)";
 import { type ClothingItem } from "@/hooks/useLocalDB";
 import { getImageUrl } from "@/lib/utils";
 
@@ -289,7 +289,7 @@ export const ClosetRow = forwardRef<ClosetRowHandle, ClosetRowProps>(
               opacity = OPACITY_SIDE + (1           - OPACITY_SIDE) * p;
               bg      = `rgba(230,230,230,${(p * 0.88).toFixed(3)})`;
               shadow  = p > 0.05
-                ? `0 ${(4 * p).toFixed(1)}px ${(16 * p).toFixed(1)}px rgba(0,0,0,${(0.15 * p).toFixed(3)})`
+                ? `0 0 ${(22 * p).toFixed(1)}px ${(7 * p).toFixed(1)}px rgba(255,248,210,${(0.55 * p).toFixed(3)}), 0 0 ${(8 * p).toFixed(1)}px ${(2 * p).toFixed(1)}px rgba(255,255,255,${(0.45 * p).toFixed(3)}), 0 ${(4 * p).toFixed(1)}px ${(14 * p).toFixed(1)}px rgba(0,0,0,${(0.30 * p).toFixed(3)})`
                 : "none";
             }
 
