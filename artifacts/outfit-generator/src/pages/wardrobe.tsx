@@ -57,8 +57,8 @@ const NAV_H = 90;
 // LED strips at shelf undersides measured via pixel brightness analysis.
 // doorL/doorR: inner left/right walls of the shelving unit interior.
 const LM = {
-  doorL: 0.37,  // inner left wall of shelving unit
-  doorR: 0.76,  // inner right wall of shelving unit
+  doorL: 0.15,  // inner left wall of shelving unit (recalibrated for garage-shelves-bg.png)
+  doorR: 0.82,  // inner right wall of shelving unit
 
   rows: [
     // sectionTop = top of bay (where carousel starts)

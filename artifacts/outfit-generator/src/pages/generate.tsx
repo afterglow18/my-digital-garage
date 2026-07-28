@@ -29,8 +29,8 @@ const NAV_H = 90;
 const GREY  = "#C8C8C8";
 
 const LM = {
-  doorL: 0.37,  // inner left wall of shelving unit
-  doorR: 0.76,  // inner right wall of shelving unit
+  doorL: 0.15,  // inner left wall of shelving unit (recalibrated for garage-shelves-bg.png)
+  doorR: 0.82,  // inner right wall of shelving unit
   rows: [
     // sectionTop = top of bay, shelfY = shelf surface (bottom of bay)
     { sectionTop: 0.08, shelfY: 0.29, btnCY: 0.06 },  // Bay 1: TOOLS    (top bay)
