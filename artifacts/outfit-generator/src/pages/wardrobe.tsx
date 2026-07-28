@@ -207,6 +207,15 @@ export default function WardrobePage() {
       className="portrait-stage"
       style={{ background: "#E8E8E8" }}
     >
+      {/* ── Safe-area top buffer (iPhone notch / Dynamic Island) ── */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0,
+        height: "env(safe-area-inset-top, 0px)",
+        background: "#111",
+        zIndex: 100,
+        pointerEvents: "none",
+      }} />
+
       {/* ── Background image — object-fit:cover avoids WebKit negative-left clipping bug ── */}
       <img
         src="/garage-shelves-bg.png"
