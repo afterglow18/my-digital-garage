@@ -203,7 +203,7 @@ export default function WelcomePage({ onEnter }: Props) {
         transition={{ duration: 0.7, ease: "easeIn" }}
         style={{
           position: "absolute", zIndex: 12,
-          bottom: "clamp(72px, 17vh, 130px)",
+          bottom: "clamp(200px, 40vh, 320px)",
           left: 0, right: 0,
           display: "flex", flexDirection: "column", alignItems: "center",
           padding: "0 32px",
