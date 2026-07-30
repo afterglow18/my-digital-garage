@@ -301,8 +301,10 @@ export default function WardrobePage() {
             return (
               <React.Fragment key={key}>
 
-                {/* ── Category label — centered over photo bay ── */}
-                <div
+                {/* ── Category label — tappable, triggers add flow ── */}
+                <button
+                  onClick={addHandlers[key]}
+                  aria-label={btnLabel}
                   style={{
                     position: "absolute",
                     top: labelY,
@@ -311,7 +313,11 @@ export default function WardrobePage() {
                     transform: "translateY(-50%)",
                     zIndex: 23,
                     textAlign: "center",
-                    pointerEvents: "none",
+                    pointerEvents: "auto",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "8px 0",
                   }}
                 >
                   <span style={{
@@ -324,7 +330,7 @@ export default function WardrobePage() {
                   }}>
                     {ROWS[rowIdx].label}
                   </span>
-                </div>
+                </button>
 
                 {/* ── Item carousel — starts below heading with a small gap ── */}
                 {items.length > 0 && (
