@@ -417,6 +417,24 @@ export default function WardrobePage() {
             }}
           />
 
+          {/* ── SAVE button tap zone — centred toolbar button in background image ── */}
+          <button
+            onClick={() => setIsSaveOpen(true)}
+            aria-label="Save outfit"
+            data-testid="button-save"
+            style={{
+              position: "absolute",
+              top:    pY(ir, 0.815),
+              left:   pX(ir, 0.295),
+              width:  pW(ir, 0.410),
+              height: pH(ir, 0.060),
+              zIndex: 25,
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
+          />
+
         </>
       )}
 
