@@ -39,7 +39,7 @@ const HEADLINES: Record<UpgradeReason, string> = {
 };
 
 const SUBTITLES: Record<UpgradeReason, string> = {
-  items:     "You've reached the free 20 item limit.\nUpgrade once, pack everything.",
+  items:     "You've reached the free 20 item limit.\nUpgrade once, organize everything.",
   outfits:   "You've hit the free outfit limit. Upgrade to save every look.",
   mannequin: "A premium feature — unlock it once.",
 };
@@ -216,11 +216,11 @@ export function UpgradeSheet({ reason, onClose }: Props) {
           <div className="px-4 py-4 flex flex-col gap-2">
             <p className="font-display font-bold uppercase text-[1.45rem] leading-[0.92] tracking-tight"
                style={{ color: "#D4D4D4" }}>
-              Unlimited packed garages
+              Unlimited Organized Garage
             </p>
 
             <p className="text-white/60 text-xs font-medium mt-1 leading-snug">
-              Your entire wardrobe, beautifully packed — forever.
+              Your entire garage, beautifully organized — forever.
             </p>
           </div>
         </div>
