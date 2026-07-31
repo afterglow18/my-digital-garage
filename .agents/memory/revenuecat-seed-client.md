@@ -14,7 +14,7 @@ description: How to create the RC management API client in scripts/ and what API
 ## RC project created
 
 - Project name: "My Digital Suitcase"
-- Entitlement: `premium`
+- Entitlement: `My Digital Garage Pro` (confirmed by user — code was using "premium" which caused plan to stay "Free")
 - Product identifier: `premium_monthly`  ($9.99/month)
 - Offering: `default` (set as current)
 - Package: `$rc_monthly`
