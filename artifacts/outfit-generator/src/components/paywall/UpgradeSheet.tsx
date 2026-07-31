@@ -170,18 +170,26 @@ export function UpgradeSheet({ reason, onClose }: Props) {
       exit={{ opacity: 0, y: "100%" }}
       transition={{ type: "spring", damping: 28, stiffness: 240 }}
       className="fixed inset-0 z-[80] flex flex-col max-w-md mx-auto"
-      style={{ background: "#F2F2F2" }}
+      style={{
+        background: [
+          "repeating-linear-gradient(0deg,   transparent, transparent 23px, rgba(50,50,50,0.10) 23px, rgba(50,50,50,0.10) 24px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 23px, rgba(50,50,50,0.10) 23px, rgba(50,50,50,0.10) 24px)",
+          "repeating-linear-gradient(0deg,   transparent, transparent 7px,  rgba(50,50,50,0.05) 7px,  rgba(50,50,50,0.05) 8px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 7px,  rgba(50,50,50,0.05) 7px,  rgba(50,50,50,0.05) 8px)",
+          "#D8D8D8",
+        ].join(", "),
+      }}
     >
-      {/* ── Grey plaid header ── */}
+      {/* ── Darker plaid header strip ── */}
       <div style={{
         flexShrink: 0,
         paddingTop: "env(safe-area-inset-top, 0px)",
         background: [
-          "repeating-linear-gradient(0deg,   transparent, transparent 17px, rgba(60,60,60,0.13) 17px, rgba(60,60,60,0.13) 18px)",
-          "repeating-linear-gradient(90deg,  transparent, transparent 17px, rgba(60,60,60,0.13) 17px, rgba(60,60,60,0.13) 18px)",
-          "repeating-linear-gradient(0deg,   transparent, transparent 5px,  rgba(60,60,60,0.07) 5px,  rgba(60,60,60,0.07) 6px)",
-          "repeating-linear-gradient(90deg,  transparent, transparent 5px,  rgba(60,60,60,0.07) 5px,  rgba(60,60,60,0.07) 6px)",
-          "#CECECE",
+          "repeating-linear-gradient(0deg,   transparent, transparent 23px, rgba(50,50,50,0.18) 23px, rgba(50,50,50,0.18) 24px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 23px, rgba(50,50,50,0.18) 23px, rgba(50,50,50,0.18) 24px)",
+          "repeating-linear-gradient(0deg,   transparent, transparent 7px,  rgba(50,50,50,0.09) 7px,  rgba(50,50,50,0.09) 8px)",
+          "repeating-linear-gradient(90deg,  transparent, transparent 7px,  rgba(50,50,50,0.09) 7px,  rgba(50,50,50,0.09) 8px)",
+          "#C4C4C4",
         ].join(", "),
       }}>
         {/* Close button */}
