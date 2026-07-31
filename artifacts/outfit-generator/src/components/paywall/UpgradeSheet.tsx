@@ -141,13 +141,19 @@ export function UpgradeSheet({ reason, onClose }: Props) {
     :                             `SUBSCRIBE – ${prices.monthly}/MO ›`;
 
   const handlePurchase = useCallback(async () => {
-    if (status === "pending" || isLoading) return;
+    if (status === "pending") return;
     setErrorMsg(null);
+
+    if (isLoading) {
+      setErrorMsg("Still loading — please try again in a moment.");
+      return;
+    }
+
     setStatus("pending");
     const pkg = getRcPackage(offerings, TIER_DEFAULTS[selected].pkgId);
     if (!pkg) {
       console.warn("[UpgradeSheet] No package found for", selected, "— offerings:", JSON.stringify(offerings));
-      setErrorMsg("Subscription products unavailable. Check your connection and try again.");
+      setErrorMsg("Products unavailable right now. Please check your connection and try again.");
       setStatus("idle");
       return;
     }
@@ -266,19 +272,26 @@ export function UpgradeSheet({ reason, onClose }: Props) {
         style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
       >
         {errorMsg && (
-          <p className="text-center text-xs font-semibold text-red-600 px-2 -mb-1">
+          <div
+            className="rounded-xl px-3 py-2.5 text-center text-xs font-semibold leading-snug"
+            style={{
+              background: "rgba(192,57,11,0.12)",
+              color: "#C0390B",
+              border: "1.5px solid rgba(192,57,11,0.30)",
+            }}
+          >
             {errorMsg}
-          </p>
+          </div>
         )}
         <button
           onClick={handlePurchase}
-          disabled={status === "pending" || isLoading}
+          disabled={status === "pending"}
           className="w-full py-3.5 rounded-2xl font-display font-bold text-lg uppercase
                      tracking-tight border-[3px] border-black text-black
                      active:translate-x-0.5 active:translate-y-0.5 transition-all
                      disabled:opacity-60 disabled:cursor-not-allowed bg-primary"
           style={{
-            boxShadow: (status === "pending" || isLoading) ? "none" : "4px 4px 0px 0px rgba(0,0,0,1)",
+            boxShadow: status === "pending" ? "none" : "4px 4px 0px 0px rgba(0,0,0,1)",
           }}
         >
           {ctaLabel}
