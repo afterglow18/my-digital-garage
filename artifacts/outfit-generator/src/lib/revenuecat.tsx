@@ -34,6 +34,17 @@ function getApiKey(): string {
   throw new Error("RevenueCat API key not configured");
 }
 
+// ── Timeout helper — prevents RC calls from hanging indefinitely ──────────────
+
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`[RevenueCat] ${label} timed out after ${ms}ms`)), ms),
+    ),
+  ]);
+}
+
 // ── Lazy-import Purchases so it doesn't crash in the browser ─────────────────
 
 type PurchasesType = typeof import("@revenuecat/purchases-capacitor").Purchases;
@@ -84,7 +95,11 @@ function useSubscriptionContext() {
     queryFn: async () => {
       const Purchases = await getPurchases();
       if (!Purchases) return null;
-      const { customerInfo } = await Purchases.getCustomerInfo();
+      const { customerInfo } = await withTimeout(
+        Purchases.getCustomerInfo(),
+        8000,
+        "getCustomerInfo",
+      );
       return customerInfo;
     },
     staleTime: 0,
@@ -96,7 +111,11 @@ function useSubscriptionContext() {
     queryFn: async () => {
       const Purchases = await getPurchases();
       if (!Purchases) return null;
-      const result = await Purchases.getOfferings();
+      const result = await withTimeout(
+        Purchases.getOfferings(),
+        8000,
+        "getOfferings",
+      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (result as any).offerings ?? result ?? null;
     },
