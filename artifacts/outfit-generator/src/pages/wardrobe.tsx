@@ -424,10 +424,10 @@ export default function WardrobePage() {
             data-testid="button-save"
             style={{
               position: "absolute",
-              top:    pY(ir, 0.815),
+              top:    pY(ir, 0.858),
               left:   pX(ir, 0.295),
               width:  pW(ir, 0.410),
-              height: pH(ir, 0.060),
+              height: pH(ir, 0.115),
               zIndex: 25,
               background: "transparent",
               border: "none",
