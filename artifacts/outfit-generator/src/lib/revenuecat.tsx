@@ -16,6 +16,10 @@
  *      — this catches refunds, expirations, and subscription lapses in real-time.
  */
 
+// Static import — Vite must NOT code-split this into a lazy chunk.
+// A dynamic import() in Capacitor's WKWebView hangs silently: the chunk
+// never loads, configure() is never reached, and RC's servers never see the key.
+import { Purchases, LOG_LEVEL } from "@revenuecat/purchases-capacitor";
 import React, { createContext, useContext, useEffect } from "react";
 import { Capacitor } from "@capacitor/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -45,48 +49,28 @@ function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise
   ]);
 }
 
-// ── Lazy-import Purchases so it doesn't crash in the browser ─────────────────
-
-type PurchasesType = typeof import("@revenuecat/purchases-capacitor").Purchases;
-let _Purchases: PurchasesType | null = null;
-
-async function getPurchases(): Promise<PurchasesType | null> {
-  if (!Capacitor.isNativePlatform()) return null;
-  if (_Purchases) return _Purchases;
-  try {
-    const mod = await import("@revenuecat/purchases-capacitor");
-    _Purchases = mod.Purchases;
-    return _Purchases;
-  } catch {
-    return null;
-  }
-}
-
 // ── Initialization ────────────────────────────────────────────────────────────
 
 export async function initializeRevenueCat(): Promise<void> {
-  const Purchases = await getPurchases();
-  if (!Purchases) return;
+  if (!Capacitor.isNativePlatform()) return;
 
   const apiKey = getApiKey();
 
-  try {
-    const { LOG_LEVEL } = await import("@revenuecat/purchases-capacitor");
-    await Purchases.setLogLevel({ level: LOG_LEVEL.DEBUG });
-  } catch { /* non-fatal */ }
+  // Fire-and-forget: do NOT await either of these.
+  // On Capacitor + SPM the Swift→JS bridge response may never arrive for
+  // setLogLevel/configure, but the native SDK initialises synchronously on
+  // message receipt — awaiting just blocks the JS side forever.
+  void Purchases.setLogLevel({ level: LOG_LEVEL.DEBUG })
+    .then(() => console.log("[RC] setLogLevel ✓"))
+    .catch((e: unknown) => console.warn("[RC] setLogLevel failed:", e));
 
-  // RC Capacitor v13 returns CustomerInfo from configure (a network call),
-  // so awaiting it blocks indefinitely if RC's servers are slow. Apply a
-  // 5 s timeout; a timeout just means the SDK is ready but CustomerInfo
-  // fetch is slow — not a real failure.
-  try {
-    await withTimeout(Purchases.configure({ apiKey }), 5000, "configure");
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    if (!msg.includes("timed out")) throw e;
-    // timeout = slow CustomerInfo fetch; SDK is already configured
-  }
-  console.log("[RevenueCat] Configured");
+  void Purchases.configure({ apiKey })
+    .then(() => console.log("[RC] configure() response ✓"))
+    .catch((e: unknown) => console.error("[RC] configure() error:", e));
+
+  // One microtask so the bridge messages are dispatched before we return.
+  await Promise.resolve();
+  console.log("[RevenueCat] configure() dispatched");
 }
 
 // ── Query key ─────────────────────────────────────────────────────────────────
@@ -103,8 +87,7 @@ function useSubscriptionContext() {
   const customerInfoQuery = useQuery({
     queryKey: CUSTOMER_INFO_KEY,
     queryFn: async () => {
-      const Purchases = await getPurchases();
-      if (!Purchases) return null;
+      if (!Capacitor.isNativePlatform()) return null;
       const { customerInfo } = await withTimeout(
         Purchases.getCustomerInfo(),
         8000,
@@ -119,8 +102,7 @@ function useSubscriptionContext() {
   const offeringsQuery = useQuery({
     queryKey: ["revenuecat", "offerings"],
     queryFn: async () => {
-      const Purchases = await getPurchases();
-      if (!Purchases) return null;
+      if (!Capacitor.isNativePlatform()) return null;
       const result = await withTimeout(
         Purchases.getOfferings(),
         8000,
@@ -137,7 +119,6 @@ function useSubscriptionContext() {
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // PluginListenerHandle has remove(): Promise<void>
     let appListenerHandle: Awaited<ReturnType<typeof import("@capacitor/app").App.addListener>> | null = null;
     let rcCallbackId: string | null = null;
 
@@ -158,15 +139,12 @@ function useSubscriptionContext() {
       // 2. RC server-push: fires when RC detects a refund, expiry, or any
       //    server-side entitlement change — revokes access in real-time.
       try {
-        const Purchases = await getPurchases();
-        if (Purchases) {
-          rcCallbackId = await Purchases.addCustomerInfoUpdateListener(
-            (customerInfo) => {
-              console.log("[RevenueCat] CustomerInfo pushed from server — updating cache");
-              qc.setQueryData(CUSTOMER_INFO_KEY, customerInfo);
-            }
-          );
-        }
+        rcCallbackId = await Purchases.addCustomerInfoUpdateListener(
+          (customerInfo) => {
+            console.log("[RevenueCat] CustomerInfo pushed from server — updating cache");
+            qc.setQueryData(CUSTOMER_INFO_KEY, customerInfo);
+          }
+        );
       } catch (err) {
         console.warn("[RevenueCat] Could not add CustomerInfo listener:", err);
       }
@@ -175,9 +153,8 @@ function useSubscriptionContext() {
     return () => {
       appListenerHandle?.remove();
       if (rcCallbackId !== null) {
-        getPurchases().then((Purchases) => {
-          Purchases?.removeCustomerInfoUpdateListener({ listenerToRemove: rcCallbackId! });
-        }).catch(() => {/* non-fatal */});
+        Purchases.removeCustomerInfoUpdateListener({ listenerToRemove: rcCallbackId })
+          .catch(() => {/* non-fatal */});
       }
     };
   }, [qc]);
@@ -185,8 +162,7 @@ function useSubscriptionContext() {
   // ── Purchase ───────────────────────────────────────────────────────────────
   const purchaseMutation = useMutation({
     mutationFn: async (pkg: unknown) => {
-      const Purchases = await getPurchases();
-      if (!Purchases) throw new Error("Purchases not available in browser");
+      if (!Capacitor.isNativePlatform()) throw new Error("Purchases not available in browser");
       const { customerInfo } = await Purchases.purchasePackage({ aPackage: pkg as never });
       return customerInfo;
     },
@@ -201,8 +177,7 @@ function useSubscriptionContext() {
   // ── Restore ────────────────────────────────────────────────────────────────
   const restoreMutation = useMutation({
     mutationFn: async () => {
-      const Purchases = await getPurchases();
-      if (!Purchases) throw new Error("Purchases not available in browser");
+      if (!Capacitor.isNativePlatform()) throw new Error("Purchases not available in browser");
       const { customerInfo } = await Purchases.restorePurchases();
       return customerInfo;
     },
