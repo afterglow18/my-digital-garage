@@ -1,13 +1,9 @@
 /**
  * useEntitlements — maps RevenueCat subscription state to the app's tier/caps model.
  *
- * Keeps the same public API as the old Stripe-backed version so pages need no
- * changes.  Under the hood it reads from useSubscription() (RevenueCat) instead
- * of localStorage + Stripe Checkout.
- *
  * Tier mapping:
- *   no active entitlement  → "free"  (up to 20 items, 5 outfits)
- *   "premium" entitlement  → "unlock" (unlimited items + outfits)
+ *   no active entitlement → "free"   (up to 20 items, 5 outfits)
+ *   active entitlement    → "unlock" (unlimited items + outfits)
  *
  * PurchaseResult:
  *   "success"     — subscription activated
@@ -19,11 +15,6 @@ import { Tier, TIER_CAPS, TierCapabilities } from "@/lib/entitlements";
 import { useSubscription } from "@/lib/revenuecat";
 
 export type PurchaseResult = "success" | "cancelled" | "unavailable";
-export type PurchaseProduct = "unlock" | "premium"; // kept for call-site compat
-
-// setGlobalTier is no longer needed (RC manages state) but keep the export so
-// App.tsx doesn't need special-casing if any old import remains.
-export function setGlobalTier(_t: Tier): void { /* no-op */ }
 
 export function useEntitlements() {
   const { isSubscribed, offerings, purchase: rcPurchase, isPurchasing } =
@@ -44,7 +35,7 @@ export function useEntitlements() {
   );
 
   const purchase = useCallback(
-    async (_product: PurchaseProduct): Promise<PurchaseResult> => {
+    async (_product: string): Promise<PurchaseResult> => {
       const pkg = offerings?.current?.availablePackages?.[0];
       if (!pkg) return "unavailable";
 
