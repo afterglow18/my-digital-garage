@@ -103,16 +103,32 @@ function useSubscriptionContext() {
     queryKey: ["revenuecat", "offerings"],
     queryFn: async () => {
       if (!Capacitor.isNativePlatform()) return null;
+
+      // Brief pause so configure()'s native message is processed before we ask
+      // for offerings — Capacitor's bridge dispatches messages asynchronously.
+      await new Promise(r => setTimeout(r, 500));
+
       const result = await withTimeout(
         Purchases.getOfferings(),
-        8000,
+        10000,
         "getOfferings",
       );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (result as any).offerings ?? result ?? null;
+      const offerings = (result as any).offerings ?? result ?? null;
+      console.log(
+        "[RC] getOfferings result — current:",
+        offerings?.current?.identifier ?? "null",
+        "| packages:",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        JSON.stringify((offerings?.current?.availablePackages ?? []).map((p: any) =>
+          ({ id: p.identifier, type: p.packageType, price: p.product?.priceString })
+        )),
+      );
+      return offerings;
     },
     staleTime: 300 * 1000,
-    retry: false,
+    retry: 3,
+    retryDelay: 2000,
   });
 
   // ── Foreground + server-push listeners ─────────────────────────────────────
