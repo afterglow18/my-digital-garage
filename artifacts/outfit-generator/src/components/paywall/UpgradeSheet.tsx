@@ -133,14 +133,8 @@ export function UpgradeSheet({ reason, onClose }: Props) {
     lifetime: getLivePrice(offerings, "$rc_lifetime", "$9.99"),
   };
 
-  // Ready once the selected package exists in offerings — customerInfo loading
-  // does NOT block the button (it hangs on slow bridges and isn't needed to purchase).
-  const selectedPkg    = getRcPackage(offerings, TIER_DEFAULTS[selected].pkgId);
-  const offeringsReady = selectedPkg != null;
-
   const ctaLabel =
     status === "pending"      ? "Opening…"
-    : !offeringsReady         ? "Loading…"
     : selected === "lifetime" ? `UNLOCK FOREVER – ${prices.lifetime} ›`
     : selected === "yearly"   ? `SUBSCRIBE – ${prices.yearly}/YR ›`
     :                           `SUBSCRIBE – ${prices.monthly}/MO ›`;
