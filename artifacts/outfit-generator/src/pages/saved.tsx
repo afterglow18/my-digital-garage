@@ -10,7 +10,7 @@ import {
   type ClothingItem,
   type SavedOutfit,
 } from "@/hooks/useLocalDB";
-import { Trash2, Bookmark, Plus, Pencil, Check, X, Search } from "lucide-react";
+import { Trash2, Archive, Plus, Pencil, Check, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getImageUrl } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
@@ -579,7 +579,7 @@ export default function SavedPage() {
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl mt-8">
               <div className="w-14 h-14 bg-accent rounded-full flex items-center justify-center border-2 border-black mb-4">
-                <Bookmark className="w-7 h-7" />
+                <Archive className="w-7 h-7" />
               </div>
               <h3 className="font-display font-bold text-xl mb-2">Nothing saved yet.</h3>
               <p className="text-sm font-medium text-muted-foreground">

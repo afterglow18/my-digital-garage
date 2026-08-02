@@ -25,7 +25,7 @@ import type { ClothingItem } from "@/lib/db";
 type IndexedItem = ClothingItem & { visionLabels?: string[]; visionText?: string[]; visionVersion?: number };
 
 const WEB_VERSION = 4;
-const IOS_VERSION = 1;
+const IOS_VERSION = 2; // v1 = object labels only (no colors); v2 = merged with canvas colors
 
 function needsIndexing(item: IndexedItem, isNative: boolean): boolean {
   const v = item.visionVersion ?? 0;

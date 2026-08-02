@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X, Heart, Trash2, Save, ChevronDown, Sparkles, BookOpen, Zap,
+  X, Heart, Trash2, Save, ChevronDown, Sparkles, BookOpen,
 } from "lucide-react";
 import {
   type ClothingItem,
@@ -170,20 +170,6 @@ export function ItemDetailsSheet({
         },
       );
     }
-  };
-
-  const handleWearingToday = () => {
-    if (!item) return;
-    updateItem.mutate(
-      { id: item.id, data: { timesWorn: (item.timesWorn ?? 0) + 1 } },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getListClothingQueryKey() });
-          queryClient.invalidateQueries({ queryKey: getListOutfitsQueryKey() });
-          queryClient.invalidateQueries({ queryKey: getWardrobeStatsQueryKey() });
-        },
-      },
-    );
   };
 
   if (!item || !form) return null;
@@ -356,52 +342,32 @@ export function ItemDetailsSheet({
         {/* ── Footer actions ── */}
         <div className="sticky bottom-0 px-4 py-4 bg-white border-t-2 border-black flex-shrink-0 flex flex-col gap-2">
 
-          {/* ── 2 context-aware action buttons ── */}
-          <div className="grid grid-cols-2 gap-2">
-            {/* Button 1: Add to Lookbook (search/faves) OR Clean Up Photo (wardrobe) */}
-            {showAddToLookbook ? (
-              <button
-                onClick={() => setLookbookOpen(true)}
-                className="py-2.5 flex items-center justify-center gap-1.5
-                           border-2 border-black rounded-xl font-display font-bold
-                           text-xs uppercase tracking-tight bg-white
-                           shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                           active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                Add to Lookbook
-              </button>
-            ) : showCleanUp ? (
-              <button
-                onClick={() => setCleanUpOpen(true)}
-                className="py-2.5 flex items-center justify-center gap-1.5
-                           border-2 border-black rounded-xl font-display font-bold
-                           text-xs uppercase tracking-tight bg-white
-                           shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                           active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Clean Up Photo
-              </button>
-            ) : (
-              <div /> /* spacer */
-            )}
-
-            {/* Button 2: Wearing Today — always */}
+          {/* Context-aware action button */}
+          {showAddToLookbook ? (
             <button
-              onClick={handleWearingToday}
-              disabled={updateItem.isPending}
-              className="py-2.5 flex items-center justify-center gap-1.5
+              onClick={() => setLookbookOpen(true)}
+              className="w-full py-2.5 flex items-center justify-center gap-2
                          border-2 border-black rounded-xl font-display font-bold
-                         text-xs uppercase tracking-tight bg-primary
+                         text-sm uppercase tracking-tight bg-white
                          shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all
-                         disabled:opacity-50"
+                         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
             >
-              <Zap className="w-3.5 h-3.5" />
-              Wearing Today
+              <BookOpen className="w-4 h-4" />
+              Add to Lookbook
             </button>
-          </div>
+          ) : showCleanUp ? (
+            <button
+              onClick={() => setCleanUpOpen(true)}
+              className="w-full py-2.5 flex items-center justify-center gap-2
+                         border-2 border-black rounded-xl font-display font-bold
+                         text-sm uppercase tracking-tight bg-white
+                         shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+            >
+              <Sparkles className="w-4 h-4" />
+              Clean Up Photo
+            </button>
+          ) : null}
 
           {/* Save (only when dirty) */}
           <AnimatePresence>

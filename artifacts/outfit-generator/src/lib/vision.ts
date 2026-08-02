@@ -141,12 +141,23 @@ export interface VisionResult {
 
 export async function analyzeItemPhoto(imageDataUrl: string): Promise<VisionResult> {
   if (Capacitor.isNativePlatform()) {
-    try {
-      const result = await VisionPlugin.analyze({ imageDataUrl });
-      return { labels: result.labels, text: result.text, version: 1 };
-    } catch {
-      return { labels: [], text: [], version: 1 };
-    }
+    // Run native Vision (object labels + text) AND canvas color extraction in parallel.
+    // Apple Vision gives object types ("shoe", "high heel") but never color names,
+    // so canvas extraction is the only source of colors on iOS.
+    const [nativeResult, canvasColors] = await Promise.allSettled([
+      VisionPlugin.analyze({ imageDataUrl }),
+      extractColorsFromImage(imageDataUrl),
+    ]);
+
+    const nativeLabels = nativeResult.status === "fulfilled" ? nativeResult.value.labels : [];
+    const nativeText   = nativeResult.status === "fulfilled" ? nativeResult.value.text   : [];
+    const colors       = canvasColors.status  === "fulfilled" ? canvasColors.value        : [];
+
+    // Merge: canvas colors first (most useful for search), then Vision object labels
+    const mergedLabels = [...colors, ...nativeLabels];
+
+    // v2 = iOS Vision + canvas colors merged
+    return { labels: mergedLabels, text: nativeText, version: 2 };
   }
 
   // Web path
