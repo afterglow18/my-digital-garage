@@ -36,6 +36,10 @@ export interface StoredClothingItem {
   notes?:         string | null;
   createdAt:      string;
   updatedAt:      string;
+  // Vision search index (safe addition — undefined on old records = version 0)
+  visionLabels?:  string[];      // dominant colors + object labels from photo
+  visionText?:    string[];      // text detected inside photo
+  visionVersion?: number;        // 0=unanalyzed, 1=iOS Vision, 4=web canvas, 5=web/no-labels(skip)
 }
 
 export interface StoredOutfit {

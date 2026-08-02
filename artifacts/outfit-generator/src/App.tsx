@@ -11,8 +11,35 @@ import WelcomePage from './pages/welcome';
 import { SubscriptionProvider } from '@/lib/revenuecat';
 import { queryClient } from '@/lib/queryClient';
 import { BiometricLockProvider } from '@/context/BiometricLockContext';
+import { useVisionIndexer } from '@/hooks/useVisionIndexer';
 
 // initializeRevenueCat() is called once in main.tsx before React mounts.
+
+// ── Vision indexer toast ──────────────────────────────────────────────────────
+function VisionIndexerToast() {
+  useVisionIndexer();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const show = () => setVisible(true);
+    const hide = () => setTimeout(() => setVisible(false), 1500);
+    window.addEventListener("vision:indexing-start", show);
+    window.addEventListener("vision:indexing-done",  hide as EventListener);
+    return () => {
+      window.removeEventListener("vision:indexing-start", show);
+      window.removeEventListener("vision:indexing-done",  hide as EventListener);
+    };
+  }, []);
+
+  if (!visible) return null;
+  return (
+    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[200]
+                    bg-black/80 text-white text-xs font-medium px-4 py-2 rounded-full
+                    shadow-lg pointer-events-none whitespace-nowrap">
+      🔍 Preparing photo search…
+    </div>
+  );
+}
 
 // ── First-launch welcome ──────────────────────────────────────────────────────
 const ENTERED_KEY = "garage-entered";
@@ -59,6 +86,7 @@ function AppShell() {
 
   return (
     <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <VisionIndexerToast />
       {entered ? (
         <Router />
       ) : (

@@ -68,6 +68,32 @@ workflows:
           npx cap add ios
           npx cap sync ios
 
+      - name: Install native Vision plugin
+        script: |
+          # Copy Swift + ObjC bridge files into the Xcode App target
+          PLUGIN_SRC="artifacts/outfit-generator/ios-native-plugins"
+          APP_DIR="artifacts/outfit-generator/ios/App/App"
+          cp "$PLUGIN_SRC/VisionPlugin.swift" "$APP_DIR/"
+          cp "$PLUGIN_SRC/VisionPlugin.m"     "$APP_DIR/"
+
+          # Add both files to the Xcode project using the xcodeproj Ruby gem
+          # (pre-installed on all Codemagic Mac machines)
+          ruby - <<'RUBY'
+          require 'xcodeproj'
+          project = Xcodeproj::Project.open('artifacts/outfit-generator/ios/App/App.xcodeproj')
+          target  = project.targets.find { |t| t.name == 'App' }
+          group   = project.main_group.find_subpath('App', false)
+
+          ['VisionPlugin.swift', 'VisionPlugin.m'].each do |filename|
+            path = "App/#{filename}"
+            next if group.files.any? { |f| f.path == filename }
+            file_ref = group.new_file(filename)
+            target.add_file_references([file_ref])
+          end
+
+          project.save
+          RUBY
+
       - name: Inject app icon
         script: |
           ICONSET="artifacts/outfit-generator/ios/App/App/Assets.xcassets/AppIcon.appiconset"
