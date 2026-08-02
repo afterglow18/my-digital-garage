@@ -303,8 +303,8 @@ export function ItemDetailsSheet({
           </div>
         )}
 
-        {/* ── Replace Photo button (always available when a photo exists) ── */}
-        {item.imageObjectPath && (
+        {/* ── Replace Photo button (only in search/favorites context, not main wardrobe) ── */}
+        {showAddToLookbook && item.imageObjectPath && (
           <div className="px-4 pt-3">
             <button
               onClick={() => setReplaceOpen(true)}
