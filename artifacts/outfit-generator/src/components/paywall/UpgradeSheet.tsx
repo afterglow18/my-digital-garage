@@ -122,7 +122,7 @@ function TierCard({
 // ── Sheet ─────────────────────────────────────────────────────────────────────
 
 export function UpgradeSheet({ reason, onClose }: Props) {
-  const { offerings, purchase, restore, isRestoring, isLoading } = useSubscription();
+  const { offerings, purchase, restore, isRestoring } = useSubscription();
   const [selected,   setSelected]   = useState<TierId>("lifetime");
   const [status,     setStatus]     = useState<"idle" | "pending">("idle");
   const [errorMsg,   setErrorMsg]   = useState<string | null>(null);
@@ -133,30 +133,30 @@ export function UpgradeSheet({ reason, onClose }: Props) {
     lifetime: getLivePrice(offerings, "$rc_lifetime", "$9.99"),
   };
 
+  // Ready once the selected package exists in offerings — customerInfo loading
+  // does NOT block the button (it hangs on slow bridges and isn't needed to purchase).
+  const selectedPkg    = getRcPackage(offerings, TIER_DEFAULTS[selected].pkgId);
+  const offeringsReady = selectedPkg != null;
+
   const ctaLabel =
-    isLoading             ? "Loading…"
-    : status === "pending"        ? "Opening…"
-    : selected === "lifetime"   ? `UNLOCK FOREVER – ${prices.lifetime} ›`
-    : selected === "yearly"     ? `SUBSCRIBE – ${prices.yearly}/YR ›`
-    :                             `SUBSCRIBE – ${prices.monthly}/MO ›`;
+    status === "pending"      ? "Opening…"
+    : !offeringsReady         ? "Loading…"
+    : selected === "lifetime" ? `UNLOCK FOREVER – ${prices.lifetime} ›`
+    : selected === "yearly"   ? `SUBSCRIBE – ${prices.yearly}/YR ›`
+    :                           `SUBSCRIBE – ${prices.monthly}/MO ›`;
 
   const handlePurchase = useCallback(async () => {
     if (status === "pending") return;
     setErrorMsg(null);
 
-    if (isLoading) {
-      setErrorMsg("Still loading — please try again in a moment.");
-      return;
-    }
-
-    setStatus("pending");
     const pkg = getRcPackage(offerings, TIER_DEFAULTS[selected].pkgId);
     if (!pkg) {
       console.warn("[UpgradeSheet] No package found for", selected, "— offerings:", JSON.stringify(offerings));
       setErrorMsg("Products unavailable right now. Please check your connection and try again.");
-      setStatus("idle");
       return;
     }
+
+    setStatus("pending");
     try {
       await purchase(pkg);
       onClose();
@@ -167,7 +167,7 @@ export function UpgradeSheet({ reason, onClose }: Props) {
       console.error("[UpgradeSheet] Purchase error:", err);
       setErrorMsg("Something went wrong. Please try again.");
     }
-  }, [status, isLoading, offerings, selected, purchase, onClose]);
+  }, [status, offerings, selected, purchase, onClose]);
 
   return (
     <motion.div
