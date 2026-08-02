@@ -28,14 +28,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const REVENUECAT_ENTITLEMENT_IDENTIFIER = "My Digital Garage Pro";
 
-const RC_TEST_KEY = import.meta.env.VITE_REVENUECAT_TEST_KEY as string | undefined;
-const RC_IOS_KEY  = import.meta.env.VITE_REVENUECAT_IOS_KEY  as string | undefined;
+// Hardcoded — RC public iOS keys are client-side only and safe to commit.
+// Using import.meta.env risks a stale/wrong key from a different env group.
+const RC_IOS_KEY = "appl_LqSZShMSaHakuPbuPObKqDUFfEq";
 
 function getApiKey(): string {
-  const isNative = Capacitor.isNativePlatform();
-  if (isNative && RC_IOS_KEY) return RC_IOS_KEY;
-  if (RC_TEST_KEY) return RC_TEST_KEY;
-  throw new Error("RevenueCat API key not configured");
+  return RC_IOS_KEY;
 }
 
 // ── Timeout helper — prevents RC calls from hanging indefinitely ──────────────
