@@ -62,11 +62,22 @@ const TIER_ORDER: TierId[] = ["monthly", "yearly", "lifetime"];
 
 // ── RC helpers ────────────────────────────────────────────────────────────────
 
+// Package-type fallback: RC's standard identifiers map to packageType strings.
+// If the exact identifier isn't found (e.g. custom product IDs in the dashboard)
+// we try matching by type so purchases still work.
+const PKG_TYPE_MAP: Record<string, string> = {
+  "$rc_monthly":  "MONTHLY",
+  "$rc_annual":   "ANNUAL",
+  "$rc_lifetime": "LIFETIME",
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getRcPackage(offerings: any, pkgId: string): any | undefined {
-  return offerings?.current?.availablePackages?.find(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (p: any) => p.identifier === pkgId,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pkgs: any[] = offerings?.current?.availablePackages ?? [];
+  return (
+    pkgs.find((p) => p.identifier === pkgId) ??
+    pkgs.find((p) => p.packageType === PKG_TYPE_MAP[pkgId])
   );
 }
 
@@ -143,9 +154,18 @@ export function UpgradeSheet({ reason, onClose }: Props) {
     if (status === "pending") return;
     setErrorMsg(null);
 
+    // Log full offerings so Xcode console shows exactly what RC returned.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const available = (offerings?.current?.availablePackages ?? []).map((p: any) => ({
+      id: p.identifier, type: p.packageType, price: p.product?.priceString,
+    }));
+    console.log("[UpgradeSheet] selected:", selected,
+      "| pkgId:", TIER_DEFAULTS[selected].pkgId,
+      "| available:", JSON.stringify(available));
+
     const pkg = getRcPackage(offerings, TIER_DEFAULTS[selected].pkgId);
     if (!pkg) {
-      console.warn("[UpgradeSheet] No package found for", selected, "— offerings:", JSON.stringify(offerings));
+      console.warn("[UpgradeSheet] No package matched — offerings:", JSON.stringify(offerings));
       setErrorMsg("Products unavailable right now. Please check your connection and try again.");
       return;
     }
