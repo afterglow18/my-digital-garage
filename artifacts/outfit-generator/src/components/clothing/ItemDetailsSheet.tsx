@@ -23,6 +23,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { getImageUrl } from "@/lib/utils";
 import { CleanUpPhotoSheet } from "./CleanUpPhotoSheet";
+import { ReplacePhotoSheet } from "./ReplacePhotoSheet";
 import { LookbookPickerSheet } from "./LookbookPickerSheet";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -138,10 +139,11 @@ function isDirty(form: FormState, item: ClothingItem): boolean {
 export function ItemDetailsSheet({
   item, onClose, onDeleted, showAddToLookbook = false,
 }: ItemDetailsSheetProps) {
-  const [form, setForm]                 = useState<FormState | null>(null);
+  const [form, setForm]                           = useState<FormState | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [displayImageUrl, setDisplayImageUrl]     = useState<string | null>(null);
   const [cleanUpOpen, setCleanUpOpen]             = useState(false);
+  const [replaceOpen, setReplaceOpen]             = useState(false);
   const [lookbookOpen, setLookbookOpen]           = useState(false);
 
   const updateItem  = useUpdateClothingItem();
@@ -153,6 +155,7 @@ export function ItemDetailsSheet({
     setShowDeleteConfirm(false);
     setDisplayImageUrl(null);
     setCleanUpOpen(false);
+    setReplaceOpen(false);
     setLookbookOpen(false);
   }, [item?.id]);
 
@@ -222,7 +225,7 @@ export function ItemDetailsSheet({
     );
   };
 
-  // Determine which context button to show
+  // Determine which context button to show in footer
   const showCleanUp =
     !showAddToLookbook &&
     !!item.imageObjectPath &&
@@ -297,6 +300,23 @@ export function ItemDetailsSheet({
               alt={item.name}
               className="w-full h-full object-contain"
             />
+          </div>
+        )}
+
+        {/* ── Replace Photo button (always available when a photo exists) ── */}
+        {item.imageObjectPath && (
+          <div className="px-4 pt-3">
+            <button
+              onClick={() => setReplaceOpen(true)}
+              className="w-full py-2.5 flex items-center justify-center gap-2
+                         border-2 border-black rounded-xl font-display font-bold
+                         text-sm uppercase tracking-tight bg-white
+                         shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+            >
+              <span className="text-base leading-none">📷</span>
+              Replace Photo
+            </button>
           </div>
         )}
 
@@ -429,6 +449,15 @@ export function ItemDetailsSheet({
           open={cleanUpOpen}
           imageDataUrl={displayImageUrl ?? getImageUrl(item.imageObjectPath)!}
           onClose={() => setCleanUpOpen(false)}
+          onSave={handleCleanUpSave}
+        />
+      )}
+
+      {/* ── Replace Photo overlay (z-80, above this sheet at z-65) ── */}
+      {replaceOpen && (
+        <ReplacePhotoSheet
+          open={replaceOpen}
+          onClose={() => setReplaceOpen(false)}
           onSave={handleCleanUpSave}
         />
       )}
