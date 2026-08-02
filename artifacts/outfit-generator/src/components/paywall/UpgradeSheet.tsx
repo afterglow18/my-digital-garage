@@ -144,8 +144,13 @@ export function UpgradeSheet({ reason, onClose }: Props) {
     lifetime: getLivePrice(offerings, "$rc_lifetime", "$9.99"),
   };
 
+  // Show Loading only while offerings haven't arrived yet — not while
+  // customerInfo is loading (that hangs on slow bridges and isn't needed to purchase).
+  const offeringsLoading = offerings === null;
+
   const ctaLabel =
     status === "pending"      ? "Opening…"
+    : offeringsLoading        ? "Loading…"
     : selected === "lifetime" ? `UNLOCK FOREVER – ${prices.lifetime} ›`
     : selected === "yearly"   ? `SUBSCRIBE – ${prices.yearly}/YR ›`
     :                           `SUBSCRIBE – ${prices.monthly}/MO ›`;
