@@ -68,6 +68,20 @@ workflows:
           npx cap add ios
           npx cap sync ios
 
+      - name: Restrict iOS target to iPhone
+        script: |
+          # Capacitor generates the Xcode project on every build, so apply the
+          # device-family setting after generation and before archiving.
+          ruby - <<'RUBY'
+          require 'xcodeproj'
+          project = Xcodeproj::Project.open('artifacts/outfit-generator/ios/App/App.xcodeproj')
+          target  = project.targets.find { |t| t.name == 'App' }
+          target.build_configurations.each do |config|
+            config.build_settings['TARGETED_DEVICE_FAMILY'] = '1'
+          end
+          project.save
+          RUBY
+
       - name: Install native Vision plugin
         script: |
           # Copy Swift + ObjC bridge files into the Xcode App target
